@@ -1,3 +1,4 @@
+import 'package:shattably/features/profile/presentation/worker_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/home/presention/layout/cubit/cubit.dart';
@@ -189,7 +190,7 @@ class _OffersScreenState extends State<OffersScreen> {
             side: const BorderSide(color: Colors.deepOrange, width: 2),
           ),
           onPressed: () {
-            ServiceCubit.get(context).showProfile(offer['employeeId']);
+            openProfile(context, offer['employeeId']);
           },
           child: const Text(
             'Show Profile',

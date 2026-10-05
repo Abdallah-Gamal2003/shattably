@@ -1,3 +1,4 @@
+import 'package:shattably/features/profile/presentation/worker_profile_page.dart';
 // import 'package:flutter/cupertino.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
@@ -233,7 +234,7 @@
 //   Widget build(BuildContext context) {
 //     return InkWell(
 //       onTap: () {
-//         ServiceCubit.get(context).showProfile(order["acceptedEmployeeId"]);
+//         openProfile(context, order["acceptedEmployeeId"]);
 //       },
 //       child: Padding(
 //         padding: const EdgeInsets.all(15),
@@ -629,7 +630,7 @@ class CompletedOrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        ServiceCubit.get(context).showProfile(order["acceptedEmployeeId"]);
+        openProfile(context, order["acceptedEmployeeId"]);
       },
       child: Card(
         shape: RoundedRectangleBorder(

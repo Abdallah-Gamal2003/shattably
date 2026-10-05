@@ -1,3 +1,6 @@
+import 'features/profile/domain/profile_repository.dart';
+import 'features/profile/domain/profile_use_cases.dart';
+import 'features/profile/presentation/profile_cubits.dart';
 import 'package:shattably/features/auth/domain/auth_repository.dart';
 import 'package:shattably/features/auth/domain/auth_use_cases.dart';
 import 'package:shattably/features/auth/presentation/auth_cubits.dart';
@@ -51,7 +54,10 @@ void main() async {
 
 
   final dependencies = AppDependencies.firebase();
-  runApp(RepositoryProvider<AuthRepository>.value(value: dependencies.auth,
+  runApp(MultiRepositoryProvider(providers: [
+    RepositoryProvider<AuthRepository>.value(value: dependencies.auth),
+    RepositoryProvider<ProfileRepository>.value(value: dependencies.profiles),
+  ],
     child: BlocProvider(create: (_) => SessionCubit(WatchAuthSession(dependencies.auth), SignOut(dependencies.auth)),
       child: const MyApp())));
 }
@@ -70,6 +76,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => ProfileCubit(GetMyProfile(context.read<ProfileRepository>()))),
         BlocProvider(
           create: (BuildContext context) => ServiceCubit(),
         ),

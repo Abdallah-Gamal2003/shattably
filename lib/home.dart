@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'features/profile/domain/profile_repository.dart';
+import 'features/profile/presentation/profile_cubits.dart';
+import 'core/presentation/load_state.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shattably/features/home/presention/layout/service_layout_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,44 +39,20 @@ class _HomeState extends State<Home> {
       }
     });
     super.initState();
-  }
-
-  Future init() async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-// Query the "users" collection to get users above a certain age (e.g., 18)
-    String token = FirebaseAuth.instance.currentUser!.uid;
-
-    QuerySnapshot querySnapshot = await firestore
-        .collection('profiles')
-        .where('uId', isEqualTo: token)
-        .get();
-
-
-    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
-      jobTitle = doc['job'];
-      city = doc['city'];
-      return jobTitle;
-    }
-
-
+    context.read<ProfileCubit>().load();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<dynamic>(
-      future: init(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          switch (snapshot.data) {
-            case 'مستخدم':
-              return const ServiceLayout();
-            default:
-              return OrdersList(workerCity: city,workerJobType: jobTitle,);
-          }
-        }
-        return const Scaffold(body:Text(""));
-      },
-    );
+    return BlocBuilder<ProfileCubit, LoadState<UserProfile>>(builder: (context, state) {
+      final profile = state.data;
+      if (profile != null) {
+        return profile.isCustomer ? const ServiceLayout() : OrdersList(workerCity: profile.city, workerJobType: profile.job);
+      }
+      return Scaffold(body: Center(child: state.failure != null
+        ? Column(mainAxisSize: MainAxisSize.min, children: [Text(state.failure!.message),
+            TextButton(onPressed: () => context.read<ProfileCubit>().load(), child: const Text('Retry'))])
+        : const CircularProgressIndicator()));
+    });
   }
 }

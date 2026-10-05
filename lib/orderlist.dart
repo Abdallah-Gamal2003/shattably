@@ -1,3 +1,4 @@
+import 'package:shattably/features/profile/presentation/worker_profile_page.dart';
 import 'package:shattably/features/auth/presentation/auth_cubits.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
@@ -262,7 +263,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //                         backgroundColor: MaterialStateProperty.all(Colors.white),
 //                       ),
 //                       onPressed: () {
-//                         ServiceCubit.get(context).showProfile(data['clientID']);
+//                         openProfile(context, data['clientID']);
 //
 //                       },
 //                       child: Text("Show Client Profile" ,  style: TextStyle(
@@ -1127,7 +1128,7 @@ class OrderCard extends StatelessWidget {
                 if (last)
                   ElevatedButton(
                     onPressed: () {
-                      ServiceCubit.get(context).showProfile(data['clientID']);
+                      openProfile(context, data['clientID']);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
