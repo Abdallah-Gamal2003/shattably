@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shattably/components/components.dart';
 import 'package:shattably/core/utils/styles.dart';
 import 'package:shattably/features/home/presention/widgets/main/widgets/cost_service_item.dart';
@@ -8,20 +7,22 @@ import 'package:shattably/features/home/presention/widgets/main/widgets/details/
 import 'package:shattably/features/home/presention/widgets/main/widgets/details/dialog_for_details_screen.dart';
 
 class DetailsScreen extends StatelessWidget {
-  var amountController = TextEditingController();
-  var descriptionController = TextEditingController();
+  final amountController = TextEditingController();
+  final descriptionController = TextEditingController();
+
+  DetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        leading: IconButtonHomeScreen(context),
-        iconTheme: IconThemeData(
+        leading: iconButtonHomeScreen(context),
+        iconTheme: const IconThemeData(
           color: Colors.white,
         ),
         backgroundColor: Colors.white,
-        title: Text(
+        title: const Text(
           'Request Service',
           style: kStyleAppBar,
         ),
@@ -32,7 +33,7 @@ class DetailsScreen extends StatelessWidget {
           child: Center(
             child: Column(
               children: [
-                Text(
+                const Text(
                   'Electrician',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -41,30 +42,30 @@ class DetailsScreen extends StatelessWidget {
                     color: Colors.deepOrange,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 70.0,
                   backgroundImage: AssetImage('assets/images/electrician.png'),
                   backgroundColor: Colors.white,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15.0,
                 ),
-                Text(
+                const Text(
                   'Ali',
                   style: kTextDialog,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
-                CostServiceItem(),
-                SizedBox(
+                const CostServiceItem(),
+                const SizedBox(
                   height: 20.0,
                 ),
                 myDivider(),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 defaultFormFieldDetails(
@@ -73,7 +74,7 @@ class DetailsScreen extends StatelessWidget {
                   label: 'amount',
                   prefix: Icons.add_box,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 30.0,
                 ),
                 defaultFormFieldDetails(
@@ -82,22 +83,22 @@ class DetailsScreen extends StatelessWidget {
                   label: 'descriptions',
                   prefix: Icons.description,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50.0,
                 ),
                 Row(
                   children: [
                     defaultDetailsScreenButton(
                       function: () async {
-                        await availableCameras().then(
-                          (value) => Navigator.push(
+                        final value = await availableCameras();
+                        if (!context.mounted) return;
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => CameraScreen(
                                 camera: value,
                               ),
                             ),
-                          ),
                         );
                       },
                       text: 'pic image',
@@ -106,14 +107,14 @@ class DetailsScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50.0,
                 ),
                 defaultButton(
                   function: () {
                     showDialog(
                       context: context,
-                      builder: (ctx) => DialogForDetailsScreen(),
+                      builder: (ctx) => const DialogForDetailsScreen(),
                     );
                   },
                   text: 'request',

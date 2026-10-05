@@ -1,9 +1,8 @@
-import 'package:conditional_builder_null_safety/example/example.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:share_plus/share_plus.dart';
 import 'package:shattably/components/components.dart';
 import 'package:shattably/features/home/presention/widgets/login/service_login_screen.dart';
 import 'package:shattably/features/home/presention/widgets/menu/cubit/cubit.dart';
@@ -11,12 +10,10 @@ import 'package:shattably/features/home/presention/widgets/menu/cubit/states.dar
 import 'package:shattably/features/home/presention/widgets/menu/widgets/about_app/about_app_screen.dart';
 import 'package:shattably/features/home/presention/widgets/menu/widgets/languages/language_screen.dart';
 import 'package:shattably/features/home/presention/widgets/menu/widgets/terms_and_conditions/terms_and_condition_screen.dart';
-import'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shattably/features/home/presention/widgets/register/service_register_screen.dart';
 
 import 'widgets/share_app/share_screen.dart';
 class MenuScreen extends StatelessWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+  const MenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +31,12 @@ class MenuScreen extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.language_outlined , color: Colors.grey,),
+                      icon: const Icon(Icons.language_outlined , color: Colors.grey,),
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LanguagesScreen(),
+                            builder: (context) => const LanguagesScreen(),
                           ),
                         );
                       },
@@ -77,10 +74,10 @@ class MenuScreen extends StatelessWidget {
                     //     ),
                     //   ).toList(),
                     // ),
-                    SizedBox(
+                    const SizedBox(
                       width: 25.0,
                     ),
-                    Text(
+                    const Text(
                       'اللغات',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -91,28 +88,28 @@ class MenuScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 myDivider(),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.info_outline , color: Colors.grey,),
+                      icon: const Icon(Icons.info_outline , color: Colors.grey,),
                       onPressed: ()
                       {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutAppScreen(),),);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const AboutAppScreen(),),);
                       },
                       iconSize: 25.0,
                       color: Colors.blue,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 25.0,
                     ),
-                    Text(
+                    const Text(
                       'عن التطبيق',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -123,28 +120,28 @@ class MenuScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 myDivider(),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.zoom_out , color: Colors.grey,),
+                      icon: const Icon(Icons.zoom_out , color: Colors.grey,),
                       onPressed: ()
                       {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditionScreen(),),);
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>const TermsAndConditionScreen(),),);
                       },
                       iconSize: 25.0,
                       color: Colors.blue,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 25.0,
                     ),
-                    Text(
+                    const Text(
                       'الشروط و الاحكام',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -155,28 +152,28 @@ class MenuScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 myDivider(),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.share , color: Colors.grey,),
+                      icon: const Icon(Icons.share , color: Colors.grey,),
                       onPressed: () {
                         //Share.share('https://web.whatsapp.com/', subject: 'Look what I made!');
-                        SharePressed();
+                        sharePressed();
                       },
                       iconSize: 25.0,
                       color: Colors.blue,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 25.0,
                     ),
-                    Text(
+                    const Text(
                       'مشاركة',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
@@ -187,25 +184,26 @@ class MenuScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20.0,
                 ),
                 myDivider(),
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.logout , color: Colors.grey,),
+                      icon: const Icon(Icons.logout , color: Colors.grey,),
                       onPressed: () async {
                         await FirebaseAuth.instance.signOut();
+        if (!context.mounted) return;
                         navigateTo(context, ServiceLoginScreen());
                       },
                       iconSize: 25.0,
                       color: Colors.blue,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 25.0,
                     ),
-                    Text(
+                    const Text(
                       'تسجيل خروج',
                       style: TextStyle(
                         fontWeight: FontWeight.w400,

@@ -13,19 +13,19 @@
 // }
 //
 // class _ProfileScreenState extends State<ProfileScreen> {
-//   var nameController = TextEditingController();
+//   final nameController = TextEditingController();
 //
-//   var emailController = TextEditingController();
+//   final emailController = TextEditingController();
 //
-//   var phoneController = TextEditingController();
+//   final phoneController = TextEditingController();
 //
-//   var addressController=TextEditingController();
+//   final addressController =TextEditingController();
 //
-//   var cityController=TextEditingController();
+//   final cityController =TextEditingController();
 //
-//   var jobController=TextEditingController();
+//   final jobController =TextEditingController();
 //
-//   var whatsappController=TextEditingController();
+//   final whatsappController =TextEditingController();
 //
 //    //var locationlink=TextEditingController();
 //   @override
@@ -375,21 +375,22 @@ import 'package:shattably/components/components.dart';
 import 'package:shattably/features/home/presention/layout/cubit/cubit.dart';
 import 'package:shattably/features/home/presention/layout/cubit/states.dart';
 import 'package:shattably/features/home/presention/widgets/profile/edit_profile_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
+
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  var nameController = TextEditingController();
-  var emailController = TextEditingController();
-  var phoneController = TextEditingController();
-  var addressController = TextEditingController();
-  var cityController = TextEditingController();
-  var jobController = TextEditingController();
-  var whatsappController = TextEditingController();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final addressController = TextEditingController();
+  final cityController = TextEditingController();
+  final jobController = TextEditingController();
+  final whatsappController = TextEditingController();
 
   @override
   void initState() {
@@ -406,7 +407,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           return Scaffold(
             backgroundColor: Colors.deepOrange,
             body: Center(
-              child: Text('Error: ' + state.error),
+              child: Text('Error: ${state.error}'),
             ),
           );
         }
@@ -422,30 +423,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
         var profileImage = ServiceCubit.get(context).profileImage;
 
         nameController.text = userModel!.name;
-        phoneController.text = userModel!.phone;
-        emailController.text = userModel!.email;
-        addressController.text = userModel!.address;
-        cityController.text = userModel!.city;
-        jobController.text = userModel!.job;
-        whatsappController.text = userModel!.whatsapp;
+        phoneController.text = userModel.phone;
+        emailController.text = userModel.email;
+        addressController.text = userModel.address;
+        cityController.text = userModel.city;
+        jobController.text = userModel.job;
+        whatsappController.text = userModel.whatsapp;
 
         return Scaffold(
-          backgroundColor: Color(0xFFF7F7F7),
+          backgroundColor: const Color(0xFFF7F7F7),
           body: SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
                   _buildProfileHeader(context, userModel, profileImage),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   _buildProfileInfo('الاسم', nameController.text, Icons.person),
                   _buildProfileInfo('رقم الهاتف', phoneController.text, Icons.phone),
                   _buildProfileInfo('العنوان', addressController.text, Icons.home),
                   _buildProfileInfo('المحافظة', cityController.text, Icons.location_city),
                   _buildProfileInfo('الوظيفة', jobController.text, Icons.work),
                   _buildProfileInfo('الواتساب', whatsappController.text, Icons.messenger_outlined),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                   _buildEditButton(context),
                 ],
               ),
@@ -470,7 +471,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               backgroundColor: Colors.white,
             ),
             IconButton(
-              icon: CircleAvatar(
+              icon: const CircleAvatar(
                 backgroundColor: Colors.green,
                 radius: 18.0,
                 child: Icon(
@@ -486,10 +487,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Text(
           nameController.text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black,
             fontFamily: 'Tajawal',
             fontWeight: FontWeight.bold,
@@ -502,8 +503,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildProfileInfo(String title, String subtitle, IconData iconData) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Colors.green.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
@@ -511,7 +512,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Row(
         children: [
           Icon(iconData, size: 30, color: Colors.green),
-          SizedBox(width: 15),
+          const SizedBox(width: 15),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -527,7 +528,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black87,
                     fontFamily: 'Tajawal',
@@ -547,13 +548,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         navigateTo(context, EditProfileScreen());
       },
       style: ElevatedButton.styleFrom(
-        primary: Colors.green,
-        padding: EdgeInsets.symmetric(vertical: 15),
+        backgroundColor: Colors.green,
+        padding: const EdgeInsets.symmetric(vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
       ),
-      child: Text(
+      child: const Text(
         "تعديل البيانات",
         style: TextStyle(
           fontFamily: 'Tajawal',

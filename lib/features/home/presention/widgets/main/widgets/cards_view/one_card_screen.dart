@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:shattably/core/utils/styles.dart';
 
-class one_card extends StatelessWidget {
+class OneCard extends StatelessWidget {
 
-  String imageForCard ;
-  String textTitle;
+  final String imageForCard ;
+  final String textTitle;
   GestureTapCallback function;
-   one_card({Key? key, required this.imageForCard, required this.textTitle, required this.function}) : super(key: key);
+   OneCard({super.key, required this.imageForCard, required this.textTitle, required this.function});
 
   @override
   Widget build(BuildContext context) {
@@ -16,26 +16,26 @@ class one_card extends StatelessWidget {
         function();
       },
       child: Container(
+        decoration: kDecoration,
         child: Column(
           children: [
             Image(
-              image: AssetImage('${kBaseImage}${imageForCard}'),
+              image: AssetImage('$kBaseImage$imageForCard'),
               height: 120.0,
               width: 90.0,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
             Text(
-              '${textTitle}',
+              textTitle,
                style: kTitleStyle,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10.0,
             ),
           ],
         ),
-        decoration: kDecoration,
       ),
     );
   }

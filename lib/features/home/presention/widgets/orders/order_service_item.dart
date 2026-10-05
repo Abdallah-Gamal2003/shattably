@@ -6,8 +6,8 @@ import 'package:shattably/getorder.dart';
 
 
 class OrderServiceItem extends StatelessWidget {
-dynamic order;
-OrderServiceItem({this.order});
+final dynamic order;
+const OrderServiceItem({super.key, this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ OrderServiceItem({this.order});
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20.0),
                 color: Colors.white,
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
                     color: Colors.grey,
                     offset: Offset(0.0, 1.0), //(x,y)
@@ -44,7 +44,7 @@ OrderServiceItem({this.order});
                   children: [
                     Column(
                       children: [
-                        Row(
+                        const Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -63,25 +63,25 @@ OrderServiceItem({this.order});
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 25.0,
                         ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               '12/3/2023',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18.00,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 30.0,
                             ),
                             Text(
-                              '${AppLocalizations.of(context)!.electrician}',
-                              style: TextStyle(
+                              AppLocalizations.of(context)!.electrician,
+                              style: const TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -90,10 +90,10 @@ OrderServiceItem({this.order});
                         ),
                       ],
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30.0,
                     ),
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 35.0,
                       backgroundImage: AssetImage('assets/images/user.png'),
                       backgroundColor: Colors.white,

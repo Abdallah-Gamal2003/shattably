@@ -1,16 +1,15 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 class Response extends StatelessWidget {
-  Response({dynamic  getorder}){
+  Response({super.key, dynamic  getorder}){
     order=getorder["order"];
     sDate=getorder["start_date"];
     eDate=getorder["end_date"];
 
   }
-  late String order;
-  late String sDate;
-  late String eDate;
+  late final String order;
+  late final String sDate;
+  late final String eDate;
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +17,10 @@ class Response extends StatelessWidget {
       body:     SafeArea(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Text("order" ,
+            const Text("order" ,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Tajawal' ,
@@ -29,7 +28,7 @@ class Response extends StatelessWidget {
                 color: Colors.white ,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             TextField(
@@ -37,16 +36,16 @@ class Response extends StatelessWidget {
               maxLines: null,
               enabled: false,
               keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.message),
 
               ),
 
-            ),SizedBox(
+            ),const SizedBox(
               height: 15,
             ),
-            Text("start date",
+            const Text("start date",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Tajawal' ,
@@ -55,7 +54,7 @@ class Response extends StatelessWidget {
               ),
 
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             TextField(
@@ -64,16 +63,16 @@ class Response extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               enabled: false,
 
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.message),
 
               ),
 
-            ),SizedBox(
+            ),const SizedBox(
               height: 15,
             ),
-            Text("end date" ,
+            const Text("end date" ,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Tajawal' ,
@@ -82,7 +81,7 @@ class Response extends StatelessWidget {
 
             ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             TextField(
@@ -91,14 +90,14 @@ class Response extends StatelessWidget {
               keyboardType: TextInputType.multiline,
               enabled: false,
 
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.message),
 
               ),
 
             ),
-            ElevatedButton(onPressed: (){}, child: Text("ارسال عرض" ,
+            ElevatedButton(onPressed: (){}, child: const Text("ارسال عرض" ,
 
                 style: TextStyle(
                   fontWeight: FontWeight.bold,

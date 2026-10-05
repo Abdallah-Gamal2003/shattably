@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ratePage extends StatelessWidget {
-  const ratePage({Key? key}) : super(key: key);
+class RatePage extends StatelessWidget {
+  const RatePage({super.key});
 
   // Function to set rate and store in database
   void setRate(String rateInput, String workerEmail) async {
@@ -33,15 +33,15 @@ class ratePage extends StatelessWidget {
             'timestamp': FieldValue.serverTimestamp(),
           });
 
-          print('Rate set to: $rateInput for worker with email: $workerEmail');
+          debugPrint('Rate set to: $rateInput for worker with email: $workerEmail');
         } else {
-          print('Worker with email: $workerEmail not found.');
+          debugPrint('Worker with email: $workerEmail not found.');
         }
       } else {
-        print('User not authenticated.');
+        debugPrint('User not authenticated.');
       }
     } catch (e) {
-      print('Error setting rate: $e');
+      debugPrint('Error setting rate: $e');
     }
   }
   // Function to get rate of the worker using ID
@@ -74,19 +74,18 @@ class ratePage extends StatelessWidget {
         return 'Worker not found';
       }
     } catch (e) {
-      print('Error getting rate: $e');
+      debugPrint('Error getting rate: $e');
       return 'Error getting rate';
     }
   }
   @override
   Widget build(BuildContext context) {
     TextEditingController rateController = TextEditingController();
-    String workerId = '123'; // Replace with actual worker ID from your data
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text(
+        title: const Text(
           'Rate',
           style: TextStyle(
             fontSize: 25,
@@ -99,9 +98,9 @@ class ratePage extends StatelessWidget {
       backgroundColor: Colors.white24,
       body: Column(
         children: [
-          SizedBox(height: 25),
-          Padding(
-            padding: const EdgeInsets.all(15),
+          const SizedBox(height: 25),
+          const Padding(
+            padding: EdgeInsets.all(15),
             child: Text(
               'Rate the worker out of 10',
               style: TextStyle(
@@ -119,21 +118,21 @@ class ratePage extends StatelessWidget {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white),
+                  borderSide: const BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 filled: true,
                 fillColor: Colors.white,
                 hintText: '',
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   fontFamily: 'Tajawal',
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
                   color: Colors.deepOrange,
                 ),
-                contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               ),
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Tajawal',
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
@@ -141,7 +140,7 @@ class ratePage extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(height: 25,),
+          const SizedBox(height: 25,),
           ElevatedButton(
             onPressed: () {
               String workerEmail = ''; // Rating prototype is not configured. // Replace with actual worker's email
@@ -151,7 +150,7 @@ class ratePage extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Rate is modified, thanks',
+                    title: const Text('Rate is modified, thanks',
                       style: TextStyle(
                         fontWeight: FontWeight.bold ,
                         fontSize: 25 ,
@@ -164,7 +163,7 @@ class ratePage extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Done',
+                        child: const Text('Done',
                           style: TextStyle(
                             fontSize: 25,
                             fontFamily: 'Tajawal',
@@ -178,15 +177,15 @@ class ratePage extends StatelessWidget {
               );
             },
             style: ElevatedButton.styleFrom(
-              primary: Colors.deepOrange,
-              textStyle: TextStyle(
+              backgroundColor: Colors.deepOrange,
+              textStyle: const TextStyle(
                 fontFamily: 'Tajawal',
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            child: const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text('Done',
               style: TextStyle(
                 fontWeight: FontWeight.bold,

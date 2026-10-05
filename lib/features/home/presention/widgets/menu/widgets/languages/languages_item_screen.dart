@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shattably/features/home/presention/widgets/menu/cubit/cubit.dart';
 import 'package:shattably/features/home/presention/widgets/menu/cubit/states.dart';
 
-class Languages_item_screen extends StatelessWidget {
-  Languages_item_screen(
-      {required this.flag, required this.text, required this.value});
+class LanguagesItemScreen extends StatelessWidget {
+  const LanguagesItemScreen(
+      {super.key, required this.flag, required this.text, required this.value});
 
 
   void changeOption(newValue, BuildContext context) {
@@ -13,9 +13,9 @@ class Languages_item_screen extends StatelessWidget {
       context.read<ServiceMenuCubit>().changeOption(newValue);
     }
   }
-  String flag;
-  int value;
-  String text;
+  final String flag;
+  final int value;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class Languages_item_screen extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
               color: Colors.white,
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: Colors.grey,
                   offset: Offset(0.0, 1.0), //(x,y)
@@ -50,18 +50,18 @@ class Languages_item_screen extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    '${flag}',
-                    style: TextStyle(
+                    flag,
+                    style: const TextStyle(
                       fontSize: 25.0,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 15.0,
                   ),
                   Text(
-                    '${text}',
+                    text,
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Radio(
 
                     value: value,

@@ -1,5 +1,3 @@
- import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -83,26 +81,26 @@ class ServiceRegisterCubit extends Cubit<ServiceRegisterStates>
        // locationlink: locationlink,
         fcmToken: [value!],
       );
-      print(model.image);
-      print("-------------------------------------------");
-      print("-------------------------------------------");
-      print("-------------------------------------------");
-      print("-------------------------------------------");
-      print("-------------------------------------------");
-      print("-------------------------------------------");
-      FirebaseFirestore.instance.collection("profiles").doc(uId).set(model.toMap()) .onError((e, _) => print("Error writing document: $e")).then((value) {
-        print("success");
+      debugPrint(model.image);
+      debugPrint("-------------------------------------------");
+      debugPrint("-------------------------------------------");
+      debugPrint("-------------------------------------------");
+      debugPrint("-------------------------------------------");
+      debugPrint("-------------------------------------------");
+      debugPrint("-------------------------------------------");
+      FirebaseFirestore.instance.collection("profiles").doc(uId).set(model.toMap()) .onError((e, _) => debugPrint("Error writing document: $e")).then((value) {
+        debugPrint("success");
         emit(ServiceRegisterCreateUserSuccessState());
       });
       // .collection("data")
       //     .doc("one")
       //     .set(docData)
-      //     .onError((e, _) => print("Error writing document: $e"));
+      //     .onError((e, _) => debugPrint("Error writing document: $e"));
       // jobCollection.doc(uId).set(model.toMap()).then((value) {
       //     emit(ServiceRegisterCreateUserSuccessState());
       //   }).catchError((error) {
       //     emit(ServiceCreateUserErrorState(error.toString()));
-      //     print(error.toString());
+      //     debugPrint(error.toString());
       // });
     });
 

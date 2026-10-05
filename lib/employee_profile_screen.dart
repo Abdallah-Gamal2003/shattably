@@ -1,7 +1,7 @@
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-// import 'package:shattably/features/home/presention/widgets/payment/payment.dart';
+// import 'package:shattably/features/home/presention/widgets/PaymentScreen/PaymentScreen.dart';
 //
 // import 'components/components.dart';
 //
@@ -11,7 +11,7 @@
 //   const EmployeeProfileScreen({Key? key, required this.employee}) : super(key: key);
 //
 //   @override
-//   _EmployeeProfileScreenState createState() => _EmployeeProfileScreenState();
+//   State<EmployeeProfileScreen> createState() => _EmployeeProfileScreenState();
 // }
 //
 // class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
@@ -54,7 +54,7 @@
 //         return 'Worker not found';
 //       }
 //     } catch (e) {
-//       print('Error getting rate: $e');
+//       debugPrint('Error getting rate: $e');
 //       return 'Error getting rate';
 //     }
 //   }
@@ -159,14 +159,14 @@
 //                         ElevatedButton(
 //                         onPressed: () {
 //
-//                           navigateTo(context, payment());
+//                           navigateTo(context, PaymentScreen());
 //
 //
 //
 //                         },
 //                     style: ElevatedButton.styleFrom(
-//                       primary: Colors.deepOrange, // Background color of button
-//                       onPrimary: Colors.white, // Text color of button
+//                       backgroundColor: Colors.deepOrange, // Background color of button
+//                       foregroundColor: Colors.white, // Text color of button
 //                       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
 //                       shape: RoundedRectangleBorder(
 //                         borderRadius: BorderRadius.circular(40),
@@ -174,7 +174,7 @@
 //                     ),
 //                     child: Center(
 //                       child: Text(
-//                         'payment',
+//                         'PaymentScreen',
 //                         style: TextStyle(
 //                           fontFamily: 'Tajawal',
 //                           fontSize: 20 ,
@@ -311,17 +311,15 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
-import 'package:shattably/features/home/presention/widgets/payment/payment.dart';
-import 'components/components.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class EmployeeProfileScreen extends StatefulWidget {
   final dynamic employee;
 
-  const EmployeeProfileScreen({Key? key, required this.employee}) : super(key: key);
+  const EmployeeProfileScreen({super.key, required this.employee});
 
   @override
-  _EmployeeProfileScreenState createState() => _EmployeeProfileScreenState();
+  State<EmployeeProfileScreen> createState() => _EmployeeProfileScreenState();
 }
 
 class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
@@ -358,7 +356,7 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
         return 'Worker not found';
       }
     } catch (e) {
-      print('Error getting rate: $e');
+      debugPrint('Error getting rate: $e');
       return 'Error getting rate';
     }
   }
@@ -374,12 +372,12 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF7F7F7),
+      backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.green),
-        title: Text(
+        iconTheme: const IconThemeData(color: Colors.green),
+        title: const Text(
           'Employee Profile',
           style: TextStyle(
             fontFamily: 'Tajawal',
@@ -391,13 +389,13 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             _buildProfileHeader(),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             _buildProfileInfo('Name', widget.employee['name'], Icons.person),
             _buildProfileInfo('Phone', widget.employee['phone'], Icons.phone),
             _buildProfileInfo('Address', widget.employee['address'], Icons.home),
@@ -405,7 +403,7 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
             _buildProfileInfo('City', widget.employee['city'], Icons.location_city),
             _buildProfileInfo('Job', widget.employee['job'], Icons.work),
             _buildProfileInfo('WhatsApp', widget.employee['whatsapp'], Icons.messenger_outlined),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             _buildCallButton(),
           ],
         ),
@@ -425,10 +423,10 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
           ),
           backgroundColor: Colors.white,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Text(
           widget.employee['name'],
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Tajawal',
             fontSize: 26,
             fontWeight: FontWeight.bold,
@@ -441,8 +439,8 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
 
   Widget _buildProfileInfo(String title, String subtitle, IconData iconData) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.all(15),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Colors.green.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
@@ -450,7 +448,7 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
       child: Row(
         children: [
           Icon(iconData, size: 30, color: Colors.green),
-          SizedBox(width: 15),
+          const SizedBox(width: 15),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -466,7 +464,7 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     color: Colors.black87,
                     fontFamily: 'Tajawal',
@@ -480,60 +478,15 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
     );
   }
 
-  Widget _buildActionButton(String text, IconData icon, Color color, VoidCallback onPressed) {
-    return ElevatedButton.icon(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        primary: color,
-        padding: EdgeInsets.symmetric(vertical: 15),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-      ),
-      icon: Icon(icon, color: Colors.white),
-      label: Text(
-        text,
-        style: TextStyle(
-          fontFamily: 'Tajawal',
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
 
-  Widget _buildRateSection() {
-    return Column(
-      children: [
-        Text(
-          'Rate of the worker out of 10',
-          style: TextStyle(
-            fontSize: 20,
-            fontFamily: 'Tajawal',
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        SizedBox(height: 10),
-        Text(
-          rate,
-          style: TextStyle(
-            fontSize: 24,
-            fontFamily: 'Tajawal',
-            fontWeight: FontWeight.bold,
-            color: Colors.deepOrange,
-          ),
-        ),
-      ],
-    );
-  }
+
+
 
   Widget _buildCallButton() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
+        const Text(
           'Call the worker',
           style: TextStyle(
             fontFamily: 'Tajawal',
@@ -543,10 +496,22 @@ class _EmployeeProfileScreenState extends State<EmployeeProfileScreen> {
           ),
         ),
         IconButton(
-          onPressed: () {
-            FlutterPhoneDirectCaller.callNumber(widget.employee['phone']);
+          onPressed: () async {
+            final phone = widget.employee['phone']?.toString().trim() ?? '';
+            var launched = false;
+            try {
+              if (phone.isNotEmpty) {
+                launched = await launchUrl(Uri(scheme: 'tel', path: phone));
+              }
+            } catch (_) {
+              // A device without a phone app may reject the intent.
+            }
+            if (!mounted || launched) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Unable to open the phone app.')),
+            );
           },
-          icon: Icon(Icons.call, color: Colors.green),
+          icon: const Icon(Icons.call, color: Colors.green),
         ),
       ],
     );

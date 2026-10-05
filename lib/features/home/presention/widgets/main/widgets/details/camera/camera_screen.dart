@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription>? camera;
-  const CameraScreen({Key? key,this.camera}) : super(key: key);
+  const CameraScreen({super.key,this.camera});
 
   @override
   State<CameraScreen> createState() => _CameraScreenState();
@@ -33,6 +33,7 @@ class _CameraScreenState extends State<CameraScreen> {
     super.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     if(!controller.value.isInitialized)
       {

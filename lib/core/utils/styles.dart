@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 ThemeData lightTheme = ThemeData(
   primarySwatch:  Colors.blue,
   scaffoldBackgroundColor: Colors.white,
-  appBarTheme:AppBarTheme(
+  appBarTheme:const AppBarTheme(
     titleSpacing: 20.0,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,
@@ -23,15 +23,15 @@ ThemeData lightTheme = ThemeData(
 
     ),
   ) ,
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
     selectedItemColor:Colors.blue,
     unselectedItemColor: Colors.grey,
     elevation: 20.0,
     backgroundColor: Colors.white,
   ),
-  textTheme: TextTheme(
-    bodyText1: TextStyle(
+  textTheme: const TextTheme(
+    bodyLarge: TextStyle(
       fontSize: 18.0,
       fontWeight: FontWeight.w600,
       color:Colors.black,

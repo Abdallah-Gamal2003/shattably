@@ -96,7 +96,7 @@ class BottomNav extends StatefulWidget {
   final dynamic workerCity;
   final dynamic workerJobType;
 
-  const BottomNav({Key? key, this.workerCity, this.workerJobType}) : super(key: key);
+  const BottomNav({super.key, this.workerCity, this.workerJobType});
 
   @override
   State<BottomNav> createState() => _BottomNavState();
@@ -112,8 +112,8 @@ class _BottomNavState extends State<BottomNav> {
     // Initialize listWid here where you have access to widget properties
     listWid = [
       OrdersList(workerJobType: widget.workerJobType, workerCity: widget.workerCity),
-      ProfileScreen(),
-      MenuScreen()
+      const ProfileScreen(),
+      const MenuScreen()
     ];
   }
 

@@ -2,22 +2,20 @@ import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shattably/components/components.dart';
-import 'package:shattably/core/utils/styles.dart';
 import 'package:shattably/features/home/presention/layout/cubit/cubit.dart';
 import 'package:shattably/features/home/presention/layout/cubit/states.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen({Key? key}) : super(key: key);
-  var formKey = GlobalKey<FormState>();
+  EditProfileScreen({super.key});
+  final formKey = GlobalKey<FormState>();
 
-  var nameController = TextEditingController();
-  var emailController = TextEditingController();
-  var phoneController = TextEditingController();
-  var addressController = TextEditingController();
-  var jobController = TextEditingController();
-  var cityController = TextEditingController();
-  var whatsappController = TextEditingController();
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final addressController = TextEditingController();
+  final jobController = TextEditingController();
+  final cityController = TextEditingController();
+  final whatsappController = TextEditingController();
   // var locationlink = TextEditingController();
 
   @override
@@ -26,15 +24,15 @@ class EditProfileScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         var userModel = ServiceCubit.get(context).userModel;
-        var profileImage = ServiceCubit.get(context).profileImage;
+
 
         nameController.text = userModel!.name;
-        phoneController.text = userModel!.phone;
-        emailController.text = userModel!.email;
-        addressController.text = userModel!.address;
-        cityController.text = userModel!.city;
-        jobController.text = userModel!.job;
-        whatsappController.text = userModel!.whatsapp;
+        phoneController.text = userModel.phone;
+        emailController.text = userModel.email;
+        addressController.text = userModel.address;
+        cityController.text = userModel.city;
+        jobController.text = userModel.job;
+        whatsappController.text = userModel.whatsapp;
         //locationlink.text = userModel!.locationlink;
 
         return BlocConsumer<ServiceCubit, ServiceLayoutStates>(
@@ -44,20 +42,20 @@ class EditProfileScreen extends StatelessWidget {
             var profileImage = ServiceCubit.get(context).profileImage;
 
             nameController.text = userModel!.name;
-            phoneController.text = userModel!.phone;
-            emailController.text = userModel!.email;
-            addressController.text = userModel!.address;
-            cityController.text = userModel!.city;
-            jobController.text = userModel!.job;
-            whatsappController.text = userModel!.whatsapp;
+            phoneController.text = userModel.phone;
+            emailController.text = userModel.email;
+            addressController.text = userModel.address;
+            cityController.text = userModel.city;
+            jobController.text = userModel.job;
+            whatsappController.text = userModel.whatsapp;
             //locationlink.text = userModel!.locationlink;
 
             return Scaffold(
               appBar: AppBar(
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                iconTheme: IconThemeData(color: Colors.green),
-                title: Text(
+                iconTheme: const IconThemeData(color: Colors.green),
+                title: const Text(
                   'Edit Profile',
                   style: TextStyle(
                     fontFamily: 'Tajawal',
@@ -70,15 +68,15 @@ class EditProfileScreen extends StatelessWidget {
               ),
               backgroundColor: Colors.white,
               body: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
                       if (state is ServiceUserUpdateLoadingState)
-                        LinearProgressIndicator(),
+                        const LinearProgressIndicator(),
                       if (state is ServiceUserUpdateLoadingState)
-                        SizedBox(
+                        const SizedBox(
                           height: 10.0,
                         ),
                       Center(
@@ -90,13 +88,13 @@ class EditProfileScreen extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 60.0,
                                   backgroundImage: profileImage == null
-                                      ? NetworkImage('${userModel.image}')
+                                      ? NetworkImage(userModel.image)
                                       : FileImage(profileImage)
                                           as ImageProvider,
                                   backgroundColor: Colors.white,
                                 ),
                                 IconButton(
-                                  icon: CircleAvatar(
+                                  icon: const CircleAvatar(
                                     backgroundColor: Colors.white,
                                     radius: 14.0,
                                     child: Icon(Icons.edit,
@@ -108,10 +106,10 @@ class EditProfileScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Text(
-                              '${userModel.name}',
-                              style: TextStyle(
+                              userModel.name,
+                              style: const TextStyle(
                                 fontFamily: 'Tajawal',
                                 fontSize: 26,
                                 fontWeight: FontWeight.bold,
@@ -121,7 +119,7 @@ class EditProfileScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 40.0,
                       ),
                       Column(
@@ -139,7 +137,7 @@ class EditProfileScreen extends StatelessWidget {
                             label: 'الاسم',
                             prefix: Icons.person,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           defaultFormField(
@@ -154,7 +152,7 @@ class EditProfileScreen extends StatelessWidget {
                             label: 'البريد الالكتروني',
                             prefix: Icons.email,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           defaultFormField(
@@ -169,7 +167,7 @@ class EditProfileScreen extends StatelessWidget {
                             label: 'رقم التليفون',
                             prefix: Icons.phone,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           defaultFormField(
@@ -184,7 +182,7 @@ class EditProfileScreen extends StatelessWidget {
                             label: 'رقم التليفون',
                             prefix: Icons.phone,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           AppTextField(
@@ -192,7 +190,7 @@ class EditProfileScreen extends StatelessWidget {
                             title: "ادخل وظيفتك",
                             hint: "الوظيفة",
                             isCitySelected: true,
-                            DataList: [
+                            dataList: [
                               SelectedListItem(name: "نجار"),
                               SelectedListItem(name: "سباك"),
                               SelectedListItem(name: "كهربائي"),
@@ -206,7 +204,7 @@ class EditProfileScreen extends StatelessWidget {
                               SelectedListItem(name: "رخام"),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           AppTextField(
@@ -214,7 +212,7 @@ class EditProfileScreen extends StatelessWidget {
                             title: "Enter your city",
                             hint: "city",
                             isCitySelected: true,
-                            DataList: [
+                            dataList: [
                               SelectedListItem(name: "القاهرة"),
                               SelectedListItem(name: "الجيزة"),
                               SelectedListItem(name: "الاسكندرية"),
@@ -222,7 +220,7 @@ class EditProfileScreen extends StatelessWidget {
                               SelectedListItem(name: "دمياط"),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           defaultFormField(
@@ -252,7 +250,7 @@ class EditProfileScreen extends StatelessWidget {
                           //   label: 'العنوان',
                           //   prefix: Icons.location_city_outlined,
                           //),
-                          SizedBox(
+                          const SizedBox(
                             height: 20.0,
                           ),
                           ElevatedButton(
@@ -270,13 +268,13 @@ class EditProfileScreen extends StatelessWidget {
                               //}
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.green,
-                              padding: EdgeInsets.symmetric(vertical: 15),
+                              backgroundColor: Colors.green,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            child: Text(
+                            child: const Text(
                               'Update Profile',
                               style: TextStyle(
                                 fontFamily: 'Tajawal',
@@ -311,7 +309,6 @@ class EditProfileScreen extends StatelessWidget {
             );
           },
         );
-        ;
       },
     );
   }
@@ -538,7 +535,7 @@ class EditProfileScreen extends StatelessWidget {
 //       title: title,
 //       hint: hint,
 //       isCitySelected: true,
-//       DataList: dataList,
+//       dataList: dataList,
 //     );
 //   }
 //
@@ -558,7 +555,7 @@ class EditProfileScreen extends StatelessWidget {
 //         }
 //       },
 //       style: ElevatedButton.styleFrom(
-//         primary: Colors.green,
+//         backgroundColor: Colors.green,
 //         padding: EdgeInsets.symmetric(vertical: 15),
 //         shape: RoundedRectangleBorder(
 //           borderRadius: BorderRadius.circular(30),

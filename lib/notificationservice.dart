@@ -15,7 +15,7 @@ import 'offers.dart';
 
 @pragma('vm:entry-point')
 class NotificationService{
-  static late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
   static Future<void> onBackgroundMessageHandler(RemoteMessage message) async {
     openNotification(message.data);
@@ -126,11 +126,11 @@ class NotificationService{
       );
       FirebaseMessaging.instance.getInitialMessage().then((value) {
         if (value != null) {
-          var key= value.data!['key'];
+          var key= value.data['key'];
           switch(key){
             case "orderEvent":
               FirebaseFirestore.instance.collection('orders')
-                  .doc( value.data!['id'])
+                  .doc( value.data['id'])
                   .get()
                   .then((value) {
                 navigateTo(NavigationService.context, Response(getorder: value.data().toString()));
@@ -138,7 +138,7 @@ class NotificationService{
               break;
             case "offerEvent":
               FirebaseFirestore.instance.collection('offers')
-                  .doc( value.data!['id'])
+                  .doc( value.data['id'])
                   .get()
                   .then((value) {
                 navigateTo(NavigationService.context,OffersScreen(orderId: value.data()));
@@ -177,11 +177,11 @@ class NotificationService{
 
       });
       FirebaseMessaging.onMessageOpenedApp.listen((event) {
-        print('Received FCM message: ${event.data}');
+        debugPrint('Received FCM message: ${event.data}');
 
         if(event.data['id'] != null){
 
-          var key= event.data!['key'];
+          var key= event.data['key'];
           switch(key){
             case "orderEvent":
               FirebaseFirestore.instance.collection('orders')

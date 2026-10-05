@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:shattably/employee.dart';
 import 'package:shattably/features/home/presention/layout/service_layout_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:shattably/features/home/presention/widgets/main/widgets/cards_view/card_home_screen.dart';
 import 'package:shattably/orderlist.dart';
 
 import 'components/components.dart';
-import 'features/home/presention/widgets/register/service_register_screen.dart';
 import 'getorder.dart';
 import 'navigationservice.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -45,7 +42,7 @@ class _HomeState extends State<Home> {
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
 // Query the "users" collection to get users above a certain age (e.g., 18)
-    String token = await FirebaseAuth.instance.currentUser!.uid;
+    String token = FirebaseAuth.instance.currentUser!.uid;
 
     QuerySnapshot querySnapshot = await firestore
         .collection('profiles')
@@ -70,12 +67,12 @@ class _HomeState extends State<Home> {
         if (snapshot.hasData) {
           switch (snapshot.data) {
             case 'مستخدم':
-              return ServiceLayout();
+              return const ServiceLayout();
             default:
               return OrdersList(workerCity: city,workerJobType: jobTitle,);
           }
         }
-        return Scaffold(body:Text(""));
+        return const Scaffold(body:Text(""));
       },
     );
   }

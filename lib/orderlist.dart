@@ -18,7 +18,7 @@
 //   OrdersList({required this.workerCity, required this.workerJobType,this.last=false});
 //
 //   @override
-//   _OrdersListState createState() => _OrdersListState();
+//   State<OrdersList> createState() => _OrdersListState();
 // }
 //
 // class _OrdersListState extends State<OrdersList> {
@@ -146,6 +146,7 @@
 //     switch (value) {
 //       case MenuAction.signOut:
 //         await FirebaseAuth.instance.signOut();
+//         if (!context.mounted) return;
 //         navigateTo(context, ServiceLoginScreen());
 //         break;
 //       case MenuAction.profile:
@@ -290,11 +291,11 @@
 //     clientId = data["clientID"];
 //   }
 //
-//   late String order;
-//   late String sDate;
-//   late String eDate;
-//   late String orderId;
-//   late String clientId;
+//   late final String order;
+//   late final String sDate;
+//   late final String eDate;
+//   late final String orderId;
+//   late final String clientId;
 //
 //   @override
 //   Widget build(BuildContext context) {
@@ -457,7 +458,7 @@
 //                 );
 //               },
 //               style: ElevatedButton.styleFrom(
-//                 primary: Colors.deepOrange, // Set the button color
+//                 backgroundColor: Colors.deepOrange, // Set the button color
 //               ),
 //               child: Text(
 //                 "ارسال عرض",
@@ -481,9 +482,7 @@
 //
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:shattably/components/components.dart';
 import 'package:shattably/features/home/presention/layout/cubit/cubit.dart';
@@ -495,52 +494,16 @@ class SetOfferPage extends StatefulWidget {
   final String orderId;
   final String clientId;
 
-  SetOfferPage({required this.orderId, required this.clientId});
+  const SetOfferPage({super.key, required this.orderId, required this.clientId});
 
   @override
-  _SetOfferPageState createState() => _SetOfferPageState();
+  State<SetOfferPage> createState() => _SetOfferPageState();
 }
 
 class _SetOfferPageState extends State<SetOfferPage> {
   final _priceController = TextEditingController();
   final _dateController = TextEditingController();
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-  Widget _buildInputField({
-    required String label,
-    required TextEditingController controller,
-    required TextInputType keyboardType,
-    required IconData icon,
-  }) {
-    return TextField(
-      controller: controller,
-      keyboardType: keyboardType,
-      style: TextStyle(
-        color: Colors.green,
-        fontFamily: 'Tajawal',
-      ),
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: TextStyle(
-          color: Colors.green,
-          fontFamily: 'Tajawal',
-        ),
-        prefixIcon: Icon(icon, color: Colors.green),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.green),
-        ),
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -549,8 +512,8 @@ class _SetOfferPageState extends State<SetOfferPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        iconTheme: IconThemeData(color: Colors.green),
-        title: Text(
+        iconTheme: const IconThemeData(color: Colors.green),
+        title: const Text(
           'انشئ عرضك',
           style: TextStyle(
             fontFamily: 'Tajawal',
@@ -563,45 +526,45 @@ class _SetOfferPageState extends State<SetOfferPage> {
       ),
       body: Column(
         children: [
-          SizedBox(height: 20),
-          Center(
+          const SizedBox(height: 20),
+          const Center(
             child: Icon(
               Icons.attach_money_rounded,
               size: 100,
               color: Colors.green,
             ),
           ),
-          SizedBox(height: 25,),
+          const SizedBox(height: 25,),
           Padding(
             padding: const EdgeInsets.all(15),
             child: TextField(
               controller: _priceController,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.green,
                 fontFamily: 'Tajawal',
               ),
               decoration: InputDecoration(
                 labelText: 'السعر',
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   color: Colors.green, // Optional: Change the label text color to deep orange
                   fontFamily: 'Tajawal',
                 ),
-                prefixIcon:Icon(Icons.money,color: Colors.green,) ,
+                prefixIcon:const Icon(Icons.money,color: Colors.green,) ,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.grey,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.grey,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.green,
                   ),
                 ),
@@ -609,38 +572,38 @@ class _SetOfferPageState extends State<SetOfferPage> {
             ),
           ),
 
-          SizedBox(height: 25,),
+          const SizedBox(height: 25,),
 
           Padding(
             padding: const EdgeInsets.all(15),
             child: TextField(
               controller: _dateController,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.green,
                 fontFamily: 'Tajawal',
               ),
               decoration: InputDecoration(
                 labelText: 'تاريخ النهاية',
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   color: Colors.green, // Optional: Change the label text color to deep orange
                   fontFamily: 'Tajawal',
                 ),
-                prefixIcon: Icon(Icons.date_range,color: Colors.green,),
+                prefixIcon: const Icon(Icons.date_range,color: Colors.green,),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.grey,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.grey,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                     color: Colors.green,
                   ),
                 ),
@@ -655,15 +618,15 @@ class _SetOfferPageState extends State<SetOfferPage> {
              ElevatedButton(
                onPressed: () async {
                  await FirebaseFirestore.instance.collection("orders").doc(widget.orderId).get().then((value) {
+                   if (!context.mounted) return;
                    if (value.data()!["status"] != "pending") {
-                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                          content: Text('This order is already pending')));
                      return;
                    }
                    FirebaseFirestore.instance
                        .collection("offers")
                        .add({}).then((value) async {
-                     var offerId = value.id;
                      var userId = FirebaseAuth.instance.currentUser!.uid;
                      var currentUser=await FirebaseFirestore.instance.collection("profiles").doc(userId).get();
                      var name=currentUser.data()!["name"];
@@ -680,23 +643,26 @@ class _SetOfferPageState extends State<SetOfferPage> {
                        "employeeId": userId
                      }).then((value) async {
                        // Outbound push delivery is disabled; the offer is saved normally.
-                        Navigator.pop(context);
-                       Navigator.pop(context);
-                       ScaffoldMessenger.of(context).showSnackBar(
-                           SnackBar(content: Text('Offer sent successfully')));
+                        if (!context.mounted) return;
+                        final navigator = Navigator.of(context);
+                        final messenger = ScaffoldMessenger.of(context);
+                        navigator.pop();
+                        navigator.pop();
+                        messenger.showSnackBar(
+                           const SnackBar(content: Text('Offer sent successfully')));
 
                      });
                    });
                  });
                },
                style: ElevatedButton.styleFrom(
-                 primary: Colors.green,
-                 padding: EdgeInsets.symmetric(vertical: 15),
+                 backgroundColor: Colors.green,
+                 padding: const EdgeInsets.symmetric(vertical: 15),
                  shape: RoundedRectangleBorder(
                    borderRadius: BorderRadius.circular(30),
                  ),
                ),
-               child: Text(
+               child: const Text(
                  'ارسال العرض',
                  style: TextStyle(
                    fontFamily: 'Tajawal',
@@ -708,7 +674,7 @@ class _SetOfferPageState extends State<SetOfferPage> {
              ),
             // ElevatedButton(
             //     style: ElevatedButton.styleFrom(
-            //       primary: Colors.deepOrange, // Set the button color
+            //       backgroundColor: Colors.deepOrange, // Set the button color
             //     ),
             //     child: Text('Send Offer',
             //
@@ -800,14 +766,12 @@ class _SetOfferPageState extends State<SetOfferPage> {
 //   SetOfferPage({required this.orderId, required this.clientId});
 //
 //   @override
-//   _SetOfferPageState createState() => _SetOfferPageState();
+//   State<OrdersList> createState() => _SetOfferPageState();
 // }
 //
 // class _SetOfferPageState extends State<SetOfferPage> {
 //   final _priceController = TextEditingController();
 //   final _dateController = TextEditingController();
-//   final FirebaseFirestore _db = FirebaseFirestore.instance;
-//   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
 //
 //   @override
 //    Widget build(BuildContext context) {
@@ -860,7 +824,7 @@ class _SetOfferPageState extends State<SetOfferPage> {
 //                 await _sendOffer();
 //               },
 //               style: ElevatedButton.styleFrom(
-//                 primary: Colors.green,
+//                 backgroundColor: Colors.green,
 //                 padding: EdgeInsets.symmetric(vertical: 15),
 //                 shape: RoundedRectangleBorder(
 //                   borderRadius: BorderRadius.circular(30),
@@ -997,23 +961,23 @@ class OrdersList extends StatefulWidget {
   final dynamic workerCity;
   final dynamic workerJobType;
 
-  OrdersList({required this.workerCity, required this.workerJobType, this.last = false});
+  const OrdersList({super.key, required this.workerCity, required this.workerJobType, this.last = false});
 
   @override
-  _OrdersListState createState() => _OrdersListState();
+  State<OrdersList> createState() => _OrdersListState();
 }
 
 class _OrdersListState extends State<OrdersList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF7F7F7),
+      backgroundColor: const Color(0xFFF7F7F7),
       appBar: AppBar(
 
         backgroundColor: Colors.white,
         title: Text(
           widget.last ? "الطلبات المقبولة" : "الطلبات المتاحة",
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Tajawal',
             fontSize: 25,
             color: Colors.green,
@@ -1037,7 +1001,7 @@ class _OrdersListState extends State<OrdersList> {
         stream: _fetchOrders(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
@@ -1074,10 +1038,10 @@ class _OrdersListState extends State<OrdersList> {
       child: Row(
         children: [
           Icon(icon, color: Colors.white),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Tajawal',
               fontSize: 18,
               color: Colors.white,
@@ -1093,10 +1057,11 @@ class _OrdersListState extends State<OrdersList> {
     switch (value) {
       case MenuAction.signOut:
         await FirebaseAuth.instance.signOut();
+        if (!context.mounted) return;
         navigateTo(context, ServiceLoginScreen());
         break;
       case MenuAction.profile:
-        navigateTo(context, ProfileScreen());
+        navigateTo(context, const ProfileScreen());
         break;
       case MenuAction.lastOrders:
         Navigator.pushReplacement(
@@ -1124,7 +1089,7 @@ class OrderCard extends StatelessWidget {
   final DocumentSnapshot order;
   final bool last;
 
-  OrderCard({required this.order, required this.last});
+  const OrderCard({super.key, required this.order, required this.last});
 
   @override
   Widget build(BuildContext context) {
@@ -1150,29 +1115,29 @@ class OrderCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _buildOrderDetail(':تاريخ البداية', data['start_date'], 18),
                 _buildOrderDetail(':تاريخ النهاية', data['end_date'], 18),
                 if (last)
                   _buildOrderDetail(":الحالة", "تم قبول عرضك من العميل", 18),
                 if (last)
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                 if (last)
                   ElevatedButton(
                     onPressed: () {
                       ServiceCubit.get(context).showProfile(data['clientID']);
                     },
-                    child: Text(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.green,
+                    ),
+                    child: const Text(
                       'الصفحة الشخصية للعميل',
                       style: TextStyle(
                         fontFamily: 'Tajawal',
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.green,
                     ),
                   ),
               ],
@@ -1188,15 +1153,15 @@ class OrderCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "$value",
-          style: TextStyle(
+          value,
+          style: const TextStyle(
             fontFamily: 'Tajawal',
             color: Colors.black87,
           ),
         ),
         Text(
           '$label ',
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Tajawal',
             fontWeight: FontWeight.bold,
             color: Colors.green,
@@ -1213,7 +1178,7 @@ class OrderCard extends StatelessWidget {
 class OrderDetailsScreen extends StatelessWidget {
   final Map<String, dynamic> data;
 
-  OrderDetailsScreen({required this.data}) {
+  OrderDetailsScreen({super.key, required this.data}) {
     order = data["order"];
     sDate = data["start_date"];
     eDate = data["end_date"];
@@ -1221,11 +1186,11 @@ class OrderDetailsScreen extends StatelessWidget {
     clientId = data["clientID"];
   }
 
-  late String order;
-  late String sDate;
-  late String eDate;
-  late String orderId;
-  late String clientId;
+  late final String order;
+  late final String sDate;
+  late final String eDate;
+  late final String orderId;
+  late final String clientId;
 
   @override
   Widget build(BuildContext context) {
@@ -1234,7 +1199,7 @@ class OrderDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'تفاصيل الطلب',
           style: TextStyle(
             fontFamily: 'Tajawal',
@@ -1243,26 +1208,26 @@ class OrderDetailsScreen extends StatelessWidget {
             color: Colors.green,
           ),
         ),
-        iconTheme: IconThemeData(color: Colors.green), // Back button color
+        iconTheme: const IconThemeData(color: Colors.green), // Back button color
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 20),
-            Center(
+            const SizedBox(height: 20),
+            const Center(
               child: Icon(
                 Icons.assignment,
                 size: 100,
                 color: Colors.green,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             _buildDetailText('الطلب', data['order']),
             _buildDetailText('تاريخ البداية', data['start_date']),
             _buildDetailText('تاريخ النهاية', data['end_date']),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {
                 navigateTo(
@@ -1273,7 +1238,15 @@ class OrderDetailsScreen extends StatelessWidget {
                   ),
                 );
               },
-              child: Text(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+              child: const Text(
                 'انشاء عرض',
                 style: TextStyle(
                   fontFamily: 'Tajawal',
@@ -1281,16 +1254,8 @@ class OrderDetailsScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.green,
-                onPrimary: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 15),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
             ),
-            Spacer(),
+            const Spacer(),
             _buildSummaryCard(data),
           ],
         ),
@@ -1320,13 +1285,13 @@ class OrderDetailsScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Order details
               _buildDetailItem('الطلب:', data['order']),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               // Start Date
               _buildDetailItem('تاريخ البداية:', data['start_date']),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               // End Date
               _buildDetailItem('تاريخ النهاية:', data['end_date']),
             ],
@@ -1349,10 +1314,10 @@ class OrderDetailsScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 5),
+        const SizedBox(height: 5),
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Tajawal',
             fontSize: 18,
             color: Colors.black87,
@@ -1370,7 +1335,7 @@ class OrderDetailsScreen extends StatelessWidget {
   Text _buildDetailText(String label, String value) {
     return Text(
       '$label: $value',
-      style: TextStyle(
+      style: const TextStyle(
         fontFamily: 'Tajawal',
         fontSize: 18,
         color: Colors.green,

@@ -1,9 +1,6 @@
 
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -52,10 +49,10 @@ class ServiceCubit extends Cubit<ServiceLayoutStates>
 
   int currentIndex = 0;
   List<Widget> screens = [
-    HomeScreen(),
-    OrderScreen(),
-    ProfileScreen(),
-    MenuScreen(),
+    const HomeScreen(),
+    const OrderScreen(),
+    const ProfileScreen(),
+    const MenuScreen(),
 
   ];
 
@@ -177,12 +174,11 @@ class ServiceCubit extends Cubit<ServiceLayoutStates>
       var name = offerData.data()!['name'];
 var image = offerData.data()!['image'];
  FirebaseFirestore.instance.collection("profiles").doc(FirebaseAuth.instance.currentUser!.uid).get().then((clientProfile) {
-         var clientName = clientProfile.data()!['name'];
          FirebaseFirestore.instance.collection('orders').doc(orderId).update({'status': 'completed', 'offerId': offerId, 'acceptedEmployeeId': employeeId, 'price': price, 'endData': endData, 'name': name, 'image': image}).then((value) {
            // Outbound push delivery awaits a trusted backend.
              Navigator.pop(NavigationService.context!);
              currentIndex = 0;
-             ScaffoldMessenger.of(NavigationService.context!).showSnackBar(SnackBar(content: Text('Offer accepted successfully')));
+             ScaffoldMessenger.of(NavigationService.context!).showSnackBar(const SnackBar(content: Text('Offer accepted successfully')));
 
              emit(ServiceAcceptOfferSuccessState());
 

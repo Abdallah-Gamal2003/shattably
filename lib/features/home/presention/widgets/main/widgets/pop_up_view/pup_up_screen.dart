@@ -6,22 +6,24 @@ import 'package:shattably/features/home/presention/widgets/main/widgets/details/
 import 'package:shattably/features/home/presention/widgets/main/widgets/pop_up_view/pop_up_body_screen.dart';
 
 class DialogExample extends StatelessWidget {
+  const DialogExample({super.key});
+
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(20.0),
         ),
       ),
-      title:  Center(
+      title:  const Center(
         child: Text(
             'Electrician',
             style:kTextDialog,
         ),
       ),
-      content: SingleChildScrollView(
+      content: const SingleChildScrollView(
         child: ListBody(
           children: [
             Column(
@@ -82,7 +84,7 @@ class DialogExample extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsScreen(),),);
                 },
               ),
-             SizedBox(
+             const SizedBox(
                width: 50.0,
              ),
               defaultDialogButton(

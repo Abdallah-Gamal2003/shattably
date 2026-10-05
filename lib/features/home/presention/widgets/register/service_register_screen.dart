@@ -9,9 +9,9 @@
 // import 'package:flutter/material.dart';
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:image_picker/image_picker.dart';
-// import 'package:shattably/components/CustomButtonAuth.dart';
-// import 'package:shattably/components/CustomLogoAuth.dart';
-// import 'package:shattably/components/CustomTextForm.dart';
+// import 'package:shattably/components/custom_button_auth.dart';
+// import 'package:shattably/components/custom_logo_auth.dart';
+// import 'package:shattably/components/custom_text_form.dart';
 // import 'package:shattably/components/components.dart';
 // import 'package:shattably/features/home/presention/layout/service_layout_screen.dart';
 // import 'package:shattably/features/home/presention/widgets/login/service_login_screen.dart';
@@ -26,15 +26,15 @@
 // }
 //
 // class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
-//   var formKey = GlobalKey<FormState>();
-//   var jobController = TextEditingController();
-//   var emailController = TextEditingController();
-//   var passwordController = TextEditingController();
-//   var nameController = TextEditingController();
-//   var phoneController = TextEditingController();
-//   var whatsappController = TextEditingController();
-//   var addressController = TextEditingController();
-//   var cityController = TextEditingController();
+//   final formKey = GlobalKey<FormState>();
+//   final jobController = TextEditingController();
+//   final emailController = TextEditingController();
+//   final passwordController = TextEditingController();
+//   final nameController = TextEditingController();
+//   final phoneController = TextEditingController();
+//   final whatsappController = TextEditingController();
+//   final addressController = TextEditingController();
+//   final cityController = TextEditingController();
 //    //var locationlink = TextEditingController();
 //   File? file;
 //   String? url;
@@ -101,7 +101,7 @@
 //             //       )..show();
 //             //     }
 //             //   } catch (e) {
-//             //     print(e);
+//             //     debugPrint(e);
 //             //   }
 //           }
 //
@@ -193,7 +193,7 @@
 //                             fontFamily: 'Tajawal',
 //                             color: Colors.white,
 //                           ),
-//                           DataList: [
+//                           dataList: [
 //                             SelectedListItem(name: "القاهرة"),
 //                             SelectedListItem(name: "الجيزة"),
 //                             SelectedListItem(name: "الاسكندرية"),
@@ -303,7 +303,7 @@
 //                           title: "",
 //                           hint: "الوظيفة",
 //                           isCitySelected: true,
-//                           DataList: [
+//                           dataList: [
 //                             SelectedListItem(name: "مستخدم عادي"),
 //                             SelectedListItem(name: "مقاول"),
 //                             SelectedListItem(name: "كهربائي"),
@@ -412,10 +412,7 @@
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -451,7 +448,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
     if (photo != null) {
       var storage = FirebaseStorage.instance;
       var storageRef = storage.ref();
-      var imagesRef = storageRef.child('${basename(photo.path)}');
+      var imagesRef = storageRef.child(basename(photo.path));
       var selectedImage = File(photo.path);
       var uploadTask = imagesRef.putFile(selectedImage);
       await (await uploadTask).ref.getDownloadURL().then((value) {
@@ -488,11 +485,11 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
         },
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: Color(0xFFF7F7F7),
+            backgroundColor: const Color(0xFFF7F7F7),
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
-              iconTheme: IconThemeData(color: Colors.black),
+              iconTheme: const IconThemeData(color: Colors.black),
             ),
             body: Center(
               child: SingleChildScrollView(
@@ -504,16 +501,16 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // Page Icon or Logo
-                        Center(
+                        const Center(
                           child: Icon(
                             Icons.app_registration_rounded,
                             size: 100,
                             color: Colors.green,
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         // Header Text
-                        Text(
+                        const Text(
                           'انشاء حساب جديد',
                           style: TextStyle(
                             fontSize: 28,
@@ -522,8 +519,8 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 10),
-                        Text(
+                        const SizedBox(height: 10),
+                        const Text(
                           'انشئ حسابك للاستمتاع بخدماتنا',
                           style: TextStyle(
                             fontSize: 16,
@@ -531,7 +528,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         // Name Field
                         defaultFormField(
                           controller: nameController,
@@ -543,9 +540,9 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                           label: 'الاسم',
                           prefix: Icons.person,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // City Field
-                        Text(
+                        const Text(
                           'من فضلك, اختر محافظتك',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -558,17 +555,17 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
 
                           hint: "المحافظة",
                           isCitySelected: true,
-                          titleTextStyle: TextStyle(
+                          titleTextStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Tajawal',
                             color: Colors.white,
                           ),
-                          hintTextStyle: TextStyle(
+                          hintTextStyle: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Tajawal',
                             color: Colors.white,
                           ),
-                          DataList: [
+                          dataList: [
                             SelectedListItem(name: "القاهرة"),
                             SelectedListItem(name: "الجيزة"),
                             SelectedListItem(name: "الاسكندرية"),
@@ -576,7 +573,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                             SelectedListItem(name: "دمياط"),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // Address Field
                         defaultFormField(
                           controller: addressController,
@@ -588,7 +585,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                           label: 'العنوان',
                           prefix: Icons.home_outlined,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // Email Field
                         defaultFormField(
                           controller: emailController,
@@ -600,7 +597,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                           label: 'البريد الالكتروني',
                           prefix: Icons.email_outlined,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // Password Field
                         defaultFormField(
                           controller: passwordController,
@@ -616,7 +613,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                           label: 'كلمة المرور',
                           prefix: Icons.lock_outline,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // Phone Number Field
                         defaultFormField(
                           controller: phoneController,
@@ -628,7 +625,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                           label: 'رقم الهاتف',
                           prefix: Icons.phone,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // WhatsApp Field
                         defaultFormField(
                           controller: whatsappController,
@@ -640,9 +637,9 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                           label: 'الواتساب',
                           prefix: Icons.phone,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // Job Selection Field
-                        Text(
+                        const Text(
                           'من فضلك, اختر وظيفتك',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -654,7 +651,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                           title: "",
                           hint: "الوظيفة",
                           isCitySelected: true,
-                          DataList: [
+                          dataList: [
                             SelectedListItem(name: "مستخدم"),
                             SelectedListItem(name: "سيراميك"),
                             SelectedListItem(name: "كهربائي"),
@@ -668,18 +665,18 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                             SelectedListItem(name: "رخام"),
                           ],
                         ),
-                        SizedBox(height: 25),
+                        const SizedBox(height: 25),
                         // Image Upload Button
                         Center(
                           child: ElevatedButton.icon(
                             onPressed: () async {
                               await getImage();
                             },
-                            icon: Icon(Icons.camera_alt_outlined),
-                            label: Text('ارفع صورة شخصيك لك'),
+                            icon: const Icon(Icons.camera_alt_outlined),
+                            label: const Text('ارفع صورة شخصيك لك'),
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.green,
-                              padding: EdgeInsets.symmetric(vertical: 15),
+                              backgroundColor: Colors.green,
+                              padding: const EdgeInsets.symmetric(vertical: 15),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
@@ -695,7 +692,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                               fit: BoxFit.cover,
                             ),
                           ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         // Register Button
                         Center(
                           child: ElevatedButton(
@@ -715,13 +712,13 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 15),
+                              padding: const EdgeInsets.symmetric(vertical: 15),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
-                              primary: Colors.green,
+                              backgroundColor: Colors.green,
                             ),
-                            child: Text(
+                            child: const Text(
                               'انشاء حساب',
                               style: TextStyle(
                                 fontSize: 18,
@@ -731,20 +728,20 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // Navigate to Login
                         Center(
                           child: TextButton(
                             onPressed: () {
                               navigateTo(context, ServiceLoginScreen());
                             },
-                            child: Text(
+                            child: const Text(
                               'هل لديك حساب بالفعل؟ سجل دخول من هنا',
                               style: TextStyle(color: Colors.green),
                             ),
                           ),
                         ),
-                        SizedBox(height: 50),
+                        const SizedBox(height: 50),
                       ],
                     ),
                   ),

@@ -7,7 +7,7 @@
 // import '../../../../../components/components.dart';
 // import '../../layout/cubit/cubit.dart';
 // import '../../layout/cubit/states.dart';
-// import '../Rate/ratePage.dart';
+// import '../Rate/rate_page.dart';
 //
 //
 // class OrderScreen extends StatefulWidget {
@@ -402,15 +402,15 @@
 //                      Center(
 //                        child: ElevatedButton(
 //                           onPressed: () {
-//                             navigateTo(context, ratePage());
+//                             navigateTo(context, RatePage());
 //
 //
 //
 //
 //                           },
 //                           style: ElevatedButton.styleFrom(
-//                             primary: Colors.deepOrange, // Background color
-//                             onPrimary: Colors.white, // Text color
+//                             backgroundColor: Colors.deepOrange, // Background color
+//                             foregroundColor: Colors.white, // Text color
 //                             textStyle: TextStyle(
 //                               fontFamily: 'Tajawal', // Font family
 //                               fontWeight: FontWeight.bold,
@@ -437,18 +437,16 @@
 
 
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shattably/features/home/presention/widgets/orders/order_service_item.dart';
 import 'package:shattably/offers.dart';
 
-import '../../../../../components/components.dart';
 import '../../layout/cubit/cubit.dart';
 import '../../layout/cubit/states.dart';
-import '../Rate/ratePage.dart';
 
 class OrderScreen extends StatefulWidget {
+  const OrderScreen({super.key});
+
   @override
   State<OrderScreen> createState() => _OrderScreenState();
 }
@@ -468,7 +466,7 @@ class _OrderScreenState extends State<OrderScreen> {
         if (state is ServiceGetOrdersErrorState) {
           return Scaffold(
             body: Center(
-              child: Text('Error: ' + state.error),
+              child: Text('Error: ${state.error}'),
             ),
           );
         }
@@ -534,7 +532,7 @@ class _OrderScreenState extends State<OrderScreen> {
       return Center(
         child: Text(
           emptyMessage,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Tajawal',
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -558,7 +556,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
 class OrderItem extends StatelessWidget {
   final Map<String, dynamic> order;
-  const OrderItem({required this.order});
+  const OrderItem({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -583,13 +581,13 @@ class OrderItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildOrderRow('تاريخ البداية', order['start_date']),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               _buildOrderRow('تاريخ النهاية', order['end_date']),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               _buildOrderRow('الوظيفة', order['jobType']),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               _buildOrderRow('المحافظة', order['city']),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
 
             ],
           ),
@@ -604,14 +602,14 @@ class OrderItem extends StatelessWidget {
       children: [
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Tajawal',
             color: Colors.black87,
           ),
         ),
         Text(
           ':$label ',
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Tajawal',
             fontWeight: FontWeight.bold,
             color: Colors.green,
@@ -625,7 +623,7 @@ class OrderItem extends StatelessWidget {
 
 class CompletedOrderItem extends StatelessWidget {
   final Map<String, dynamic> order;
-  const CompletedOrderItem({required this.order});
+  const CompletedOrderItem({super.key, required this.order});
 
   @override
   Widget build(BuildContext context) {
@@ -645,16 +643,16 @@ class CompletedOrderItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildProfileRow(order),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               _buildOrderDetail(':تاريخ البداية', order['start_date']),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _buildOrderDetail(':تاريخ النهاية', order['end_date']),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _buildOrderDetail(':الوظيفة', order['jobType']),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _buildOrderDetail(':المحافظة', order['city']),
-              SizedBox(height: 20),
-              Center(
+              const SizedBox(height: 20),
+              const Center(
                 child: Text('العرض المقبول',
                   style: TextStyle(
                   fontSize: 18,
@@ -663,11 +661,11 @@ class CompletedOrderItem extends StatelessWidget {
                   color: Colors.green,
                 ),),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _buildOrderDetail( ':السعر', order['price']),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               _buildOrderDetail( ':تايخ نهاية العرض', order['endData']),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
             ],
           ),
@@ -687,18 +685,18 @@ class CompletedOrderItem extends StatelessWidget {
                 : 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
           ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Text(
           order['name'],
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
             fontFamily: 'Tajawal',
             color: Colors.green,
           ),
         ),
-        SizedBox(width: 5),
-        Icon(Icons.verified, color: Colors.grey, size: 19),
+        const SizedBox(width: 5),
+        const Icon(Icons.verified, color: Colors.grey, size: 19),
       ],
     );
   }
@@ -709,7 +707,7 @@ class CompletedOrderItem extends StatelessWidget {
       children: [
         Text(
           value,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontFamily: 'Tajawal',
             color: Colors.black87,
@@ -717,7 +715,7 @@ class CompletedOrderItem extends StatelessWidget {
         ),
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
             fontFamily: 'Tajawal',

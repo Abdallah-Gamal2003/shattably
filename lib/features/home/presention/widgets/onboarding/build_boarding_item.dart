@@ -6,31 +6,31 @@ Widget buildBoardingItem(BoardingModel model) => Column(
   children: [
     Expanded(
       child: Image(
-        image: AssetImage('${model.image}'),
+        image: AssetImage(model.image),
       ),
     ),
-    SizedBox(
+    const SizedBox(
       height:30.0,
     ),
     Text(
-      '${model.title}',
-      style: TextStyle(
+      model.title,
+      style: const TextStyle(
         fontSize:24.0,
         fontWeight: FontWeight.bold,
       ),
     ),
-    SizedBox(
+    const SizedBox(
       height:15.0,
     ),
     Text(
-      '${model.body}',
-      style: TextStyle(
+      model.body,
+      style: const TextStyle(
         fontSize:14.0,
         fontWeight: FontWeight.bold,
 
       ),
     ),
-    SizedBox(
+    const SizedBox(
       height:30.0,
     ),
   ],

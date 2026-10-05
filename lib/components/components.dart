@@ -26,7 +26,7 @@ Widget defaultFormField({
       obscureText: isPassword,
       keyboardType: type,
       onFieldSubmitted: (s) {
-        onSubmit!(s);
+        onSubmit?.call(s);
       },
       onChanged: onChange,
       onTap: onTap,
@@ -35,27 +35,27 @@ Widget defaultFormField({
       decoration: InputDecoration(
 
         labelText: label,
-        labelStyle: TextStyle(fontFamily: "Tajawal",color: Colors.green),
+        labelStyle: const TextStyle(fontFamily: "Tajawal",color: Colors.green),
         prefixIcon: Icon(
           prefix,color: Colors.green,
         ),
         suffixIcon: suffix != null
             ? IconButton(
                 onPressed: () {
-                  suffixPressed!();
+                  suffixPressed?.call();
                 },
                 icon: Icon(
                   suffix,
                 ),
               )
             : null,
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
         ),
-        enabledBorder: OutlineInputBorder(
+        enabledBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.grey),
         ),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: Colors.green),
         ),
       ),
@@ -74,22 +74,22 @@ Widget defaultButton({
 
       width: width,
       height: 40.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          radius,
+        ),
+        color: background,
+      ),
       child: MaterialButton(
         onPressed: () {
           function();
         }, //() he not put it
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          radius,
-        ),
-        color: background,
       ),
     );
 
@@ -106,22 +106,22 @@ Widget defaultDialogButton({
     Container(
       width: width,
         height: 30.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          radius,
+        ),
+        color: background,
+      ),
       child: MaterialButton(
         onPressed: () {
           function();
         }, //() he not put it
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          radius,
-        ),
-        color: background,
       ),
     );
 
@@ -138,22 +138,22 @@ Widget defaultDetailsScreenButton({
     Container(
       width: width,
       height: 50.0,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          radius,
+        ),
+        color: background,
+      ),
       child: MaterialButton(
         onPressed: () {
           function();
         }, //() he not put it
         child: Text(
           isUpperCase ? text.toUpperCase() : text,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          radius,
-        ),
-        color: background,
       ),
     );
 
@@ -184,7 +184,7 @@ void navigateAndFinish(context, widget) => Navigator.pushAndRemoveUntil(
 // desc: Text(desc),
 // ).show();
 
-Widget AlertDialg({
+Widget alertDialog({
   required String text,
   required String title,
   required String titleForNav,
@@ -228,7 +228,7 @@ Widget defaultFormFieldDetails({
       controller: controller,
       keyboardType: type,
       onFieldSubmitted: (s) {
-        onSubmit!(s);
+        onSubmit?.call(s);
       },
       onChanged:onChange,
       onTap: onTap,
@@ -241,14 +241,14 @@ Widget defaultFormFieldDetails({
         suffixIcon: suffix != null
             ? IconButton(
           onPressed: () {
-            suffixPressed!();
+            suffixPressed?.call();
           },
           icon: Icon(
             suffix,
           ),
         )
             : null,
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
       ),
     );
 
@@ -264,13 +264,13 @@ Widget myDivider() => Padding(
   ),
 );
 
-IconButton IconButtonHomeScreen(BuildContext context) {
+IconButton iconButtonHomeScreen(BuildContext context) {
   return IconButton(
     onPressed: ()
     {
       Navigator.pop(context);
     },
-    icon: Icon(
+    icon: const Icon(
       IconBroken.Arrow___Left_2,
       color: Colors.black,
     ),
@@ -287,10 +287,10 @@ class AppTextField extends StatefulWidget {
   final TextEditingController textEditingController;
   final String title;
   final String hint;
-  final dynamic? hintTextStyle;
-  final dynamic? titleTextStyle;
+  final dynamic hintTextStyle;
+  final dynamic titleTextStyle;
   final bool isCitySelected;
-  final List<SelectedListItem>? DataList;
+  final List<SelectedListItem>? dataList;
 
   const AppTextField({
     required this.textEditingController,
@@ -299,12 +299,12 @@ class AppTextField extends StatefulWidget {
     this.hintTextStyle,
     this.titleTextStyle,
     required this.isCitySelected,
-    this.DataList,
-    Key? key,
-  }) : super(key: key);
+    this.dataList,
+    super.key,
+  });
 
   @override
-  _AppTextFieldState createState() => _AppTextFieldState();
+  State<AppTextField> createState() => _AppTextFieldState();
 }
 class _AppTextFieldState extends State<AppTextField> {
   /// This is on text changed method which will display on city text field on changed.
@@ -314,7 +314,7 @@ class _AppTextFieldState extends State<AppTextField> {
         isDismissible: true,
         bottomSheetTitle:  Text(
           widget.title,
-          style: TextStyle(
+          style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20.0,
           ),
@@ -326,7 +326,7 @@ class _AppTextFieldState extends State<AppTextField> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        data: widget.DataList ?? [],
+        data: widget.dataList ?? [],
         selectedItems: (List<dynamic> selectedList) {
           List<String> list = [];
           for (var item in selectedList) {

@@ -4,18 +4,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:shattably/bloc_observer.dart';
 import 'package:shattably/core/utils/constants.dart';
-import 'package:shattably/core/utils/styles.dart';
 import 'package:shattably/features/home/presention/layout/cubit/cubit.dart';
 import 'package:shattably/features/home/presention/layout/cubit/states.dart';
-import 'package:shattably/features/home/presention/layout/service_layout_screen.dart';
 import 'package:shattably/features/home/presention/widgets/login/service_login_screen.dart';
-import 'package:shattably/features/home/presention/widgets/main/widgets/google_maps/google_maps_screen.dart';
 import 'package:shattably/features/home/presention/widgets/menu/cubit/cubit.dart';
-import 'package:shattably/features/home/presention/widgets/onboarding/onboarding_screen.dart';
-import 'package:shattably/features/home/presention/widgets/register/service_register_screen.dart';
 import 'package:shattably/firebase_options.dart';
 import 'package:shattably/home.dart';
 import 'package:shattably/navigationservice.dart';
@@ -28,7 +22,7 @@ import 'package:flutter/services.dart';
 
 final ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: Colors.white24, // Set scaffold background color
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     backgroundColor: Colors.white24, // Set app bar background color
 
   ),
@@ -36,7 +30,7 @@ final ThemeData lightTheme = ThemeData(
 );
 
 void main() async {
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.grey, // status bar color
   ));
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,13 +43,13 @@ void main() async {
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
   await CacheHelper.init();
-  Widget widget;
+
 
   uId = CacheHelper.getData(key: 'uId');
 
 
 
-  runApp(MyApp(
+  runApp(const MyApp(
 
   ));
 }
@@ -66,7 +60,7 @@ class MyApp extends StatelessWidget {
   final Locale? locale;
 
   final Widget? startWidget;
-  MyApp({
+  const MyApp({super.key, 
     this.startWidget, this.locale,
   });
   // This widget is the root of your application.
@@ -114,7 +108,7 @@ class MyApp extends StatelessWidget {
                       }
                     });
                   });
-                  return (FirebaseAuth.instance.currentUser!=null && FirebaseAuth.instance.currentUser!.emailVerified)? Home():ServiceLoginScreen();
+                  return (FirebaseAuth.instance.currentUser!=null && FirebaseAuth.instance.currentUser!.emailVerified)? const Home():ServiceLoginScreen();
                 }
 
                 return ServiceLoginScreen();

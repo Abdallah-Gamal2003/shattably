@@ -1,38 +1,33 @@
 
-import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:shattably/components/components.dart';
-import 'package:shattably/core/utils/styles.dart';
-import 'package:shattably/features/home/presention/widgets/main/widgets/pop_up_view/pup_up_screen.dart';
 
-import '../../../../../../../packages/syncfusion_flutter_datepicker-23.2.4/lib/datepicker.dart';
-import '../../../../../../../packages/syncfusion_flutter_datepicker-23.2.4/lib/src/date_picker/date_picker.dart';
+import 'package:shattably/components/components.dart';
+
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+
 import '../cards_view/card_home_screen.dart';
 
 
-class form extends StatefulWidget {
+class RequestForm extends StatefulWidget {
 
-  form(this.job);
-  String job ;
+  const RequestForm(this.job, {super.key});
+  final String job;
   @override
-  State<form> createState() => _formState();
+  State<RequestForm> createState() => _RequestFormState();
   final String order="";
 }
 
-class _formState extends State<form> {
+class _RequestFormState extends State<RequestForm> {
   String? deliveryDate;
   String? rentingPeriod;
   DateTime? deliverySelectedDate = DateTime.now();
   DateTime? rentingPeriodSelectedDate;
-var cityController=TextEditingController();
-var orderController=TextEditingController();
+final cityController =TextEditingController();
+final orderController =TextEditingController();
 
 
 
@@ -44,7 +39,7 @@ var orderController=TextEditingController();
       appBar: AppBar(
 backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'تسجيل الطلب',
           style: TextStyle(
             color: Colors.green,
@@ -64,11 +59,11 @@ backgroundColor: Colors.white,
               controller: orderController,
               maxLines: null,
               keyboardType: TextInputType.multiline,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Tajawal', // Set text style to Tajawal font
                 color: Colors.green, // Set text color to white
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "اكتب طلبك",
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey), // Set border color to deepOrange
@@ -89,7 +84,7 @@ backgroundColor: Colors.white,
             ),
           ),
 
-          SizedBox(height: 15,) ,
+          const SizedBox(height: 15,) ,
 
 
           Padding(
@@ -107,12 +102,12 @@ backgroundColor: Colors.white,
               startRangeSelectionColor: Colors.green,
               selectionColor: Colors.green,
 
-              monthCellStyle: DateRangePickerMonthCellStyle(
+              monthCellStyle: const DateRangePickerMonthCellStyle(
                 textStyle: TextStyle(color: Colors.green), // Set text color to white for date numbers
               ),
 
               // Customize the header style to set the color of day headers to white
-              headerStyle: DateRangePickerHeaderStyle(
+              headerStyle: const DateRangePickerHeaderStyle(
                 textStyle: TextStyle(color: Colors.white), // Set text color to white for day headers
               ),
 
@@ -134,11 +129,11 @@ backgroundColor: Colors.white,
               controller: TextEditingController(text: deliveryDate),
               maxLines: null,
               keyboardType: TextInputType.multiline,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Tajawal', // Set text style to Tajawal font
                 color: Colors.green, // Set text color to white
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "بدايه المده",
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey), // Set border color to deepOrange
@@ -167,11 +162,11 @@ backgroundColor: Colors.white,
               controller: TextEditingController(text: rentingPeriod),
               maxLines: null,
               keyboardType: TextInputType.multiline,
-              style: TextStyle(
+              style: const TextStyle(
                 fontFamily: 'Tajawal', // Set text style to Tajawal font
                 color: Colors.green, // Set text color to white
               ),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "نهايه المده",
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey), // Set border color to deepOrange
@@ -195,11 +190,11 @@ backgroundColor: Colors.white,
           AppTextField(
           textEditingController: cityController,
           title: "",
-          hintTextStyle: TextStyle(color: Colors.deepOrange , fontFamily: 'Tajawal' , fontSize: 25),
-          titleTextStyle: TextStyle(color: Colors.deepOrange , fontFamily: 'Tajawal' , fontSize: 25),
+          hintTextStyle: const TextStyle(color: Colors.deepOrange , fontFamily: 'Tajawal' , fontSize: 25),
+          titleTextStyle: const TextStyle(color: Colors.deepOrange , fontFamily: 'Tajawal' , fontSize: 25),
           hint: "المحافظة",
           isCitySelected: true,
-          DataList: [
+          dataList: [
             SelectedListItem(name: "القاهرة"),
             SelectedListItem(name: "الجيزة"),
             SelectedListItem(name: "الاسكندرية"),
@@ -210,15 +205,15 @@ backgroundColor: Colors.white,
         ),ElevatedButton(
 
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.green), // Set background color
+                backgroundColor: WidgetStateProperty.all<Color>(Colors.green), // Set background color
                 // You can add more styling options here if needed
               ),
               onPressed: () async {
 
-          String orderId="";
+          
             await FirebaseFirestore.instance.collection("orders")
                 .add({}).then((value) async {
-              orderId=value.id;
+              
               var userId= FirebaseAuth.instance.currentUser!.uid;
               return await FirebaseFirestore.instance.collection("orders").doc(value.id).set({
                 'orderId': value.id,
@@ -231,20 +226,22 @@ backgroundColor: Colors.white,
                 "status":"pending",
               }).then((value) async {
                 // Outbound push delivery is disabled until a trusted backend is deployed.
+                if (!context.mounted) return true;
+                final messenger = ScaffoldMessenger.of(context);
                 Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                messenger.showSnackBar(const SnackBar(
                   content: Text('تم ارسال الطلب بنجاح'),
                   duration: Duration(seconds: 3),
                 ));
 
                 return true;
               }).catchError((error) {
-                print("Failed to add user: $error");
+                debugPrint("Failed to add user: $error");
                 return false;
               });
             });
 
-        }, child: Text("ارسال طلب" , style: TextStyle(color: Colors.white , fontFamily: 'Tajawal' , fontSize: 20),))],),
+        }, child: const Text("ارسال طلب" , style: TextStyle(color: Colors.white , fontFamily: 'Tajawal' , fontSize: 20),))],),
       )
     );
   }
@@ -257,7 +254,7 @@ backgroundColor: Colors.white,
 // import 'package:drop_down_list/model/selected_list_item.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter/material.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
+// 
 // import 'package:shattably/components/components.dart';
 // import 'package:shattably/core/utils/styles.dart';
 // import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -277,14 +274,14 @@ backgroundColor: Colors.white,
 //   String? rentingPeriod;
 //   DateTime? deliverySelectedDate = DateTime.now();
 //   DateTime? rentingPeriodSelectedDate;
-//   var cityController = TextEditingController();
-//   var orderController = TextEditingController();
+//   final cityController = TextEditingController();
+//   final orderController = TextEditingController();
 //
 //   @override
 //   Widget build(BuildContext context) {
 //     return Scaffold(
 //       appBar: AppBar(
-//         leading: IconButtonHomeScreen(context),
+//         leading: iconButtonHomeScreen(context),
 //         title: Text(
 //           'Order Service',
 //           style: TextStyle(
@@ -340,7 +337,7 @@ backgroundColor: Colors.white,
 //                   color: Colors.green,
 //                 ),
 //                 isCitySelected: true,
-//                 DataList: [
+//                 dataList: [
 //                   SelectedListItem(name: "Cairo"),
 //                   SelectedListItem(name: "Giza"),
 //                   SelectedListItem(name: "Alexandria"),
@@ -353,7 +350,7 @@ backgroundColor: Colors.white,
 //               ElevatedButton(
 //                 onPressed: _submitOrder,
 //                 style: ElevatedButton.styleFrom(
-//                   primary: Colors.green,
+//                   backgroundColor: Colors.green,
 //                   padding: EdgeInsets.symmetric(vertical: 15),
 //                   shape: RoundedRectangleBorder(
 //                     borderRadius: BorderRadius.circular(30),
@@ -504,7 +501,7 @@ backgroundColor: Colors.white,
 //           duration: Duration(seconds: 3),
 //         ));
 //       }).catchError((error) {
-//         print("Failed to add order: $error");
+//         debugPrint("Failed to add order: $error");
 //       });
 //     });
 //   }

@@ -48,7 +48,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'electrician.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.electrician}',
@@ -57,7 +57,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -74,7 +74,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'plumber.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.plumber}',
@@ -83,7 +83,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -104,7 +104,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'carpenter.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.carpenter}',
@@ -113,7 +113,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -130,7 +130,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'painter.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.painter}',
@@ -139,7 +139,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -160,7 +160,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'ceramic_tiles.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.ceramicTiles}',
@@ -169,7 +169,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -186,7 +186,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'simth.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.smith}',
@@ -195,7 +195,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -216,7 +216,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'conditioning.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.conditioning}',
@@ -225,7 +225,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -242,7 +242,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'parquet.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.parquet}',
@@ -251,7 +251,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -272,7 +272,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'portal.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.portal}',
@@ -281,7 +281,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -298,7 +298,7 @@
 //                                   width: 3.0, // Border width
 //                                 ),
 //                               ),
-//                               child: one_card(
+//                               child: OneCard(
 //                                 imageForCard: 'marble.png',
 //                                 textTitle:
 //                                 '${AppLocalizations.of(context)!.marble}',
@@ -307,7 +307,7 @@
 //                                   Navigator.push(
 //                                     context,
 //                                     MaterialPageRoute(
-//                                         builder: (context) => form(job)),
+//                                         builder: (context) => RequestForm(job)),
 //                                   );
 //                                 },
 //                               ),
@@ -334,13 +334,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shattably/features/home/presention/layout/cubit/cubit.dart';
 import 'package:shattably/features/home/presention/layout/cubit/states.dart';
-import 'package:shattably/features/home/presention/widgets/main/widgets/cards_view/one_card_screen.dart';
 import 'package:shattably/features/home/presention/widgets/main/widgets/google_maps/google_maps_screen.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 String job = "";
 
 class CardHomeScreen extends StatelessWidget {
+  const CardHomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ServiceCubit, ServiceLayoutStates>(
@@ -352,25 +352,25 @@ class CardHomeScreen extends StatelessWidget {
           body: Padding(
             padding: const EdgeInsets.all(20.0),
             child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   _buildServiceCardRow(context, 'electrician.png',
                       "كهربائي", 'كهربائي', 'plumber.png',
                       "سباك", 'سباك'),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildServiceCardRow(context, 'carpenter.png',
                       "نجار", 'نجار', 'painter.png',
                       "نقاش", 'نقاش'),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildServiceCardRow(context, 'ceramic_tiles.png',
                       "سيراميك", 'سيراميك', 'simth.png',
                       "حداد", 'حداد'),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildServiceCardRow(context, 'conditioning.png',
                       "تكييف", 'تكييف', 'parquet.png',
                       "باركيه", 'باركية'),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   _buildServiceCardRow(context, 'portal.png',
                       "الموتال", 'الموتال', 'marble.png',
                       "رخام", 'رخام'),
@@ -400,12 +400,12 @@ class CardHomeScreen extends StatelessWidget {
           job = jobTitle;
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => form(job)),
+            MaterialPageRoute(builder: (context) => RequestForm(job)),
           );
         },
         child: Container(
           height: 180,
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
@@ -414,7 +414,7 @@ class CardHomeScreen extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.2),
                 spreadRadius: 5,
                 blurRadius: 7,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),
@@ -426,7 +426,7 @@ class CardHomeScreen extends StatelessWidget {
                 width: 100,
                 height: 100,
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 title,
                 style: TextStyle(

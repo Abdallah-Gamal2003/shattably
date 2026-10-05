@@ -4,12 +4,12 @@ import 'package:shattably/core/utils/styles.dart';
 
 class CostServiceItem extends StatelessWidget {
   const CostServiceItem({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(

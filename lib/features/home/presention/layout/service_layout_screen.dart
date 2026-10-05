@@ -1,17 +1,12 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shattably/core/utils/styles.dart';
 import 'package:shattably/features/home/presention/layout/cubit/cubit.dart';
 import 'package:shattably/features/home/presention/layout/cubit/states.dart';
 
-import '../../../../components/components.dart';
-import '../../../../getorder.dart';
-import '../../../../navigationservice.dart';
 
 class ServiceLayout extends StatefulWidget {
+  const ServiceLayout({super.key});
+
 
   @override
   State<ServiceLayout> createState() => _ServiceLayoutState();
@@ -45,7 +40,7 @@ class _ServiceLayoutState extends State<ServiceLayout> {
               centerTitle: true,
               title: Text(
                 titles[cubit.currentIndex],
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'Tajawal',
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
@@ -69,7 +64,7 @@ class _ServiceLayoutState extends State<ServiceLayout> {
                   cubit.changeBottom(index);
                 },
                 currentIndex: cubit.currentIndex,
-                items: [
+                items: const [
                   BottomNavigationBarItem(
                     icon: Icon(
                         Icons.home_filled,

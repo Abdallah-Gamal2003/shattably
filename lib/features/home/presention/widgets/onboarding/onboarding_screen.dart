@@ -6,14 +6,14 @@ import 'package:shattably/features/home/presention/widgets/onboarding/onboarding
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
+  const OnBoardingScreen({super.key});
 
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  var boardController = PageController();
+  final boardController = PageController();
   List<BoardingModel> boarding = [
     BoardingModel(
       title: 'Do you have a problem in your house?',
@@ -39,7 +39,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       appBar: AppBar(
         actions: [
           TextButton(
-            child: Text('SKIP'),
+            child: const Text('SKIP'),
             onPressed: () {
               navigateAndFinish(context, ServiceLoginScreen());
             },
@@ -52,7 +52,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           children: [
             Expanded(
               child: PageView.builder(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 onPageChanged: (index) {
                   if (index == boarding.length - 1) {
                     setState(() {
@@ -70,14 +70,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 itemCount: boarding.length,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 40.0,
             ),
             Row(
               children: [
                 SmoothPageIndicator(
                   controller: boardController,
-                  effect: ExpandingDotsEffect(
+                  effect: const ExpandingDotsEffect(
                     dotColor: Colors.grey,
                     dotHeight: 10,
                     expansionFactor: 4,
@@ -87,7 +87,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   ),
                   count: boarding.length,
                 ),
-                Spacer(),
+                const Spacer(),
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
@@ -102,14 +102,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
                     } else {
                       boardController.nextPage(
-                        duration: Duration(
+                        duration: const Duration(
                           milliseconds: 750,
                         ),
                         curve: Curves.fastLinearToSlowEaseIn,
                       );
                     }
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_forward_ios,
                   ),
                 ),

@@ -5,7 +5,7 @@ import 'features/home/presention/layout/cubit/states.dart';
 
 class OffersScreen extends StatefulWidget {
   final dynamic orderId;
-  OffersScreen({Key? key, this.orderId}) : super(key: key);
+  const OffersScreen({super.key, this.orderId});
 
   @override
   State<OffersScreen> createState() => _OffersScreenState();
@@ -59,7 +59,7 @@ class _OffersScreenState extends State<OffersScreen> {
                 color: Colors.green,
               ),
             ),
-            iconTheme: IconThemeData(color: Colors.green),
+            iconTheme: const IconThemeData(color: Colors.green),
             centerTitle: true,
           ),
           backgroundColor: Colors.white, // Light background for the whole screen

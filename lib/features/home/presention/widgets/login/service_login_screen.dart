@@ -16,9 +16,9 @@
 // class ServiceLoginScreen extends StatelessWidget {
 //   ServiceLoginScreen({Key? key}) : super(key: key);
 //
-//   var formKey = GlobalKey<FormState>();
-//   var emailController = TextEditingController();
-//   var passwordController = TextEditingController();
+//   final formKey = GlobalKey<FormState>();
+//   final emailController = TextEditingController();
+//   final passwordController = TextEditingController();
 //
 //   @override
 //   Widget build(BuildContext context) {
@@ -143,6 +143,7 @@
 //                           onTap: () async {
 //                             if(emailController.text=="")
 //                               {
+//                                 if (!context.mounted) return;
 //                                 AwesomeDialog(
 //                                   context: context,
 //                                   dialogType: DialogType.error,
@@ -344,7 +345,7 @@ import 'package:shattably/home.dart';
 import 'package:shattably/network/local/cache_helper.dart';
 
 class ServiceLoginScreen extends StatelessWidget {
-  ServiceLoginScreen({Key? key}) : super(key: key);
+  ServiceLoginScreen({super.key});
 
   final formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
@@ -371,12 +372,14 @@ class ServiceLoginScreen extends StatelessWidget {
               email: emailController.text,
               password: passwordController.text,
             );
+            if (!context.mounted) return;
             if (credential.user!.emailVerified) {
               CacheHelper.saveData(
                 key: 'uId',
                 value: state.uId,
               ).then((value) {
-                navigateAndFinish(context, Home());
+                if (!context.mounted) return;
+                navigateAndFinish(context, const Home());
               });
             } else {
               AwesomeDialog(
@@ -391,7 +394,7 @@ class ServiceLoginScreen extends StatelessWidget {
         },
         builder: (context, state) {
           return Scaffold(
-            backgroundColor: Color(0xFFF7F7F7),
+            backgroundColor: const Color(0xFFF7F7F7),
             body: Center(
               child: SingleChildScrollView(
                 child: Padding(
@@ -402,16 +405,16 @@ class ServiceLoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         // App logo or Icon
-                        Center(
+                        const Center(
                           child: Icon(
                             Icons.login_rounded,
                             size: 100,
                             color: Colors.green,
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         // Welcome text
-                        Text(
+                        const Text(
                           '!مرحبا',
                           style: TextStyle(
                             fontSize: 28,
@@ -420,8 +423,8 @@ class ServiceLoginScreen extends StatelessWidget {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 10),
-                        Text(
+                        const SizedBox(height: 10),
+                        const Text(
                           'سجل دخولك لاستخدام حسابك',
                           style: TextStyle(
                             fontSize: 16,
@@ -429,7 +432,7 @@ class ServiceLoginScreen extends StatelessWidget {
                           ),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 40),
+                        const SizedBox(height: 40),
                         // Email Input
                         defaultFormField(
                           controller: emailController,
@@ -443,7 +446,7 @@ class ServiceLoginScreen extends StatelessWidget {
                           label: 'البريد الالكتروني',
                           prefix: Icons.email_outlined,
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // Password Input
                         defaultFormField(
                           controller: passwordController,
@@ -465,6 +468,7 @@ class ServiceLoginScreen extends StatelessWidget {
                           child: TextButton(
                             onPressed: () async {
                               if (emailController.text.isEmpty) {
+                                if (!context.mounted) return;
                                 AwesomeDialog(
                                   context: context,
                                   dialogType: DialogType.error,
@@ -479,6 +483,7 @@ class ServiceLoginScreen extends StatelessWidget {
                                 await FirebaseAuth.instance.sendPasswordResetEmail(
                                   email: emailController.text,
                                 );
+                                if (!context.mounted) return;
                                 AwesomeDialog(
                                   context: context,
                                   dialogType: DialogType.success,
@@ -487,6 +492,7 @@ class ServiceLoginScreen extends StatelessWidget {
                                   desc: 'تم ارسال رابط لاعادة تعيين كلمة مرور جيدة',
                                 ).show();
                               } catch (e) {
+                                if (!context.mounted) return;
                                 AwesomeDialog(
                                   context: context,
                                   dialogType: DialogType.error,
@@ -496,10 +502,10 @@ class ServiceLoginScreen extends StatelessWidget {
                                 ).show();
                               }
                             },
-                            child: Text('هل نسيت كلمة المرور؟',style: TextStyle(color: Colors.green),),
+                            child: const Text('هل نسيت كلمة المرور؟',style: TextStyle(color: Colors.green),),
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         // Login Button
                         ConditionalBuilder(
                           condition: state is! ServiceLoginLoadingState,
@@ -513,13 +519,13 @@ class ServiceLoginScreen extends StatelessWidget {
                               }
                             },
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 15),
+                              padding: const EdgeInsets.symmetric(vertical: 15),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30),
                               ),
-                              primary: Colors.green,
+                              backgroundColor: Colors.green,
                             ),
-                            child: Text(
+                            child: const Text(
                               'تسجيل دخول',
                               style: TextStyle(
                                 fontSize: 18,
@@ -528,19 +534,19 @@ class ServiceLoginScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          fallback: (context) => Center(
+                          fallback: (context) => const Center(
                             child: CircularProgressIndicator(),
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         // Sign Up Link
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [                           TextButton(
                             onPressed: () {
-                              navigateTo(context, ServiceRegisterScreen());
+                              navigateTo(context, const ServiceRegisterScreen());
                             },
-                            child: Text(
+                            child: const Text(
                               'انشاء حساب',
                               style: TextStyle(
                                 fontSize: 16,
@@ -549,7 +555,7 @@ class ServiceLoginScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                            Text(
+                            const Text(
                               "ليس لديك حساب؟",
                               style: TextStyle(
                                 fontSize: 16,

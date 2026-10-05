@@ -2,21 +2,21 @@ import 'package:flutter/material.dart';
 
 class DialogForDetailsScreen extends StatelessWidget {
   const DialogForDetailsScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
           ),
         ),
         title: const Text('Information'),
-        content: SingleChildScrollView(
+        content: const SingleChildScrollView(
           child: ListBody(
-            children: const [
+            children: [
               Text('Request Saved'),
             ],
           ),

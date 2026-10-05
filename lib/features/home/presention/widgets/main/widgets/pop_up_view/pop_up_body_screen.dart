@@ -3,21 +3,21 @@ import 'package:shattably/core/utils/styles.dart';
 
 
 class DialogBody extends StatelessWidget {
-  DialogBody({required this.textTitle, required this.textContain});
-  String textTitle;
-  String textContain;
+  const DialogBody({super.key, required this.textTitle, required this.textContain});
+  final String textTitle;
+  final String textContain;
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
-          '$textTitle',
+          textTitle,
           style: kTextDialogBody,
         ),
-        Spacer(),
+        const Spacer(),
         Text(
-          '$textContain',
+          textContain,
           style: kTextDialogRightBody,
         ),
       ],

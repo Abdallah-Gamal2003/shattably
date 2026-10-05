@@ -8,7 +8,7 @@ import 'package:shattably/features/home/presention/widgets/main/widgets/cards_vi
 
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
       listener: (context, state) {
       },
       builder: (context, state) {
-        return Scaffold(
+        return const Scaffold(
           backgroundColor: Colors.white,
           body: CardHomeScreen(),
 
