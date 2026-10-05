@@ -18,17 +18,6 @@ class ServiceCubit extends Cubit<ServiceLayoutStates>
 
   static ServiceCubit get(context) => BlocProvider.of(context);
 
-  List myOrders = [];
-  void getOrders() {
-    emit(ServiceGetOrdersLoadingState());
-    var uID = FirebaseAuth.instance.currentUser!.uid;
-    FirebaseFirestore.instance.collection('orders').where('clientID', isEqualTo: uID).get().then((value) {
-      myOrders = value.docs;
-      emit(ServiceGetOrdersSuccessState());
-    }).catchError((error){
-      emit(ServiceGetOrdersErrorState(error.toString()));
-    });
-  }
   int currentIndex = 0;
   List<Widget> screens = [
     const HomeScreen(),

@@ -1,4 +1,7 @@
 import 'features/profile/domain/profile_repository.dart';
+import 'features/orders/domain/orders_repository.dart';
+import 'features/orders/domain/orders_use_cases.dart';
+import 'features/orders/presentation/orders_cubits.dart';
 import 'features/profile/domain/profile_use_cases.dart';
 import 'features/profile/presentation/profile_cubits.dart';
 import 'package:shattably/features/auth/domain/auth_repository.dart';
@@ -57,6 +60,7 @@ void main() async {
   runApp(MultiRepositoryProvider(providers: [
     RepositoryProvider<AuthRepository>.value(value: dependencies.auth),
     RepositoryProvider<ProfileRepository>.value(value: dependencies.profiles),
+    RepositoryProvider<OrdersRepository>.value(value: dependencies.orders),
   ],
     child: BlocProvider(create: (_) => SessionCubit(WatchAuthSession(dependencies.auth), SignOut(dependencies.auth)),
       child: const MyApp())));
@@ -76,6 +80,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => CustomerOrdersCubit(GetCustomerOrders(context.read<OrdersRepository>()))),
         BlocProvider(create: (context) => ProfileCubit(GetMyProfile(context.read<ProfileRepository>()))),
         BlocProvider(
           create: (BuildContext context) => ServiceCubit(),
