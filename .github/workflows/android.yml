@@ -1,0 +1,37 @@
+name: Android verification
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: '3.24.4'
+          cache: true
+      - name: Android build dependencies
+        run: sdkmanager 'platforms;android-35' 'build-tools;34.0.0' 'ndk;25.1.8937393'
+      - name: Compile-only Firebase configuration
+        run: python3 scripts/create_ci_firebase_config.py
+      - run: flutter pub get
+      # Style infos are tracked separately; errors and warnings fail CI.
+      - run: flutter analyze --no-fatal-infos
+      - run: flutter test
+      - run: flutter build apk
+      - name: Scan publication files
+        run: python3 scripts/verify_publication.py

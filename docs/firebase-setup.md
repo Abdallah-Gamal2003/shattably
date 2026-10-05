@@ -6,8 +6,8 @@ on disk, but they are not included in the publication history.
 
 ## Prerequisites
 
-Install the Flutter version in `docs/android-baseline.md` (once the modernization
-baseline is established), Android SDK, Firebase CLI and FlutterFire CLI. Authenticate
+Install Flutter 3.24.4, the Android SDK/JDK in `android-baseline.md`, Firebase CLI
+and FlutterFire CLI. Authenticate
 the Firebase CLI with your own account. Do not copy another developer's credentials.
 
 ```sh
@@ -36,16 +36,15 @@ are ignored by Git. There is no shared demo account or public database configure
    Customers may change only their own orders; workers may submit only their own
    offers. Enforce the relationship between an offer, its order and its owner.
    Protect private contact fields and device tokens. Client checks are not security.
-4. Scope profile-image Storage access to the authenticated owner. The current
-   registration UI attempts photo upload before account creation; strict rules can
-   reject it. Register without a photo or address this known flow limitation in
-   the subsequent profile migration; do not loosen rules globally.
+4. Scope profile-image Storage access to the authenticated owner. Registration
+   creates the Auth account before uploading a selected photo. Permit owners to
+   write only their own `profiles/{uid}/...` path; do not loosen rules globally.
 5. Exercise customer and worker queries against your development project and
    create any composite indexes requested by Firestore. Export reviewed rules
    and indexes before relying on the project for a public live demo.
 
-Current collections are `profiles`, `orders`, `offers`, and the disconnected
-`workerRates` prototype. This repository does not yet provide production-ready
+The active collections are `profiles`, `orders`, and `offers`.
+This repository does not yet provide production-ready
 security rules or reproducible seed data. Create only synthetic test profiles.
 
 ## Notifications

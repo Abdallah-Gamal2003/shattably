@@ -1,4 +1,4 @@
-"""Scan staged blobs without printing credential values. Uses only Python stdlib."""
+"""Scan index blobs, or reachable HEAD history with --history. Never print values."""
 import json
 import re
 import subprocess
@@ -44,12 +44,21 @@ if local_config.exists():
                    ("FIREBASE_PROJECT_ID", "GOOGLE_APP_ID", "GCM_SENDER_ID")
                    if config.get(key)]
 
-paths = [p.decode() for p in git("ls-files", "-z").split(b"\0") if p]
+history = sys.argv[1:] == ["--history"]
+if sys.argv[1:] and not history:
+    raise SystemExit("Usage: python scripts/verify_publication.py [--history]")
+if history:
+    objects = [line.split(" ", 1) for line in git("rev-list", "--objects", "HEAD").decode().splitlines()]
+    types = subprocess.check_output(["git", "cat-file", "--batch-check=%(objecttype)"],
+        cwd=ROOT, input="\n".join(item[0] for item in objects).encode() + b"\n").decode().splitlines()
+    entries = [(item[1], item[0]) for item, kind in zip(objects, types) if kind == "blob" and len(item) == 2]
+else:
+    entries = [(p.decode(), ":" + p.decode()) for p in git("ls-files", "-z").split(b"\0") if p]
 findings = []
-for path in paths:
+for path, reference in entries:
     if path in forbidden or path.startswith(("shattably/", ".local-recovery/")):
         findings.append((path, "excluded publication path"))
-    content = git("show", ":" + path)
+    content = git("cat-file", "blob", reference)
     for label, pattern in patterns.items():
         if re.search(pattern, content):
             findings.append((path, label))
@@ -58,6 +67,7 @@ for path in paths:
 
 for path, label in findings:
     print(f"FAIL: {path}: {label} (value redacted)")
-print(f"Scanned {len(paths)} staged files; {len(findings)} findings.")
+scope = "reachable HEAD history blobs" if history else "staged files"
+print(f"Scanned {len(entries)} {scope}; {len(findings)} findings.")
 print("Pattern scanning does not replace credential revocation or manual review.")
 sys.exit(1 if findings else 0)

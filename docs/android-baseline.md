@@ -31,9 +31,18 @@ for local notifications. The application ID remains unchanged to keep local
 Firebase configuration working. Release APKs currently use the existing debug
 signing configuration for local testing; they are not store-ready releases.
 
-Outbound app-triggered push messages remain disabled. No Clean Architecture/MVVM
-migration or UI redesign is included in this phase. iOS/web/desktop are unverified.
+Outbound app-triggered push messages remain disabled. The subsequent architecture
+migration is documented in `architecture.md`. The UI design is preserved.
+iOS/web/desktop are unverified.
 
 The call-worker action uses `url_launcher` to open a `tel:` URI in the phone app.
 The user confirms the call there. This replaces the incompatible direct-calling
 plugin without modifying the global Pub cache.
+
+The verified local toolchain has NDK 25.1.8937393. AGP/plugin configuration emits
+a recommendation for NDK 27.0.12077973; the baseline APK completed with 25.1.
+This remaining toolchain warning is not a claim of NDK 27 validation.
+
+The SDK batch launcher stalled on the original workstation. Local verification
+used the installed Dart executable with bin/cache/flutter_tools.snapshot to invoke
+the same Flutter commands; this workaround does not belong in portable project paths.
