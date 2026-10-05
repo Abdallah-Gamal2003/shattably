@@ -1,11 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shattably/features/auth/domain/auth_repository.dart';
+import 'package:shattably/features/auth/domain/auth_use_cases.dart';
+import 'package:shattably/features/auth/presentation/auth_cubits.dart';
+import 'package:shattably/core/presentation/load_state.dart';
+import 'app/dependencies.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shattably/bloc_observer.dart';
-import 'package:shattably/core/utils/constants.dart';
 import 'package:shattably/features/home/presention/layout/cubit/cubit.dart';
 import 'package:shattably/features/home/presention/layout/cubit/states.dart';
 import 'package:shattably/features/home/presention/widgets/login/service_login_screen.dart';
@@ -45,13 +47,13 @@ void main() async {
   await CacheHelper.init();
 
 
-  uId = CacheHelper.getData(key: 'uId');
 
 
 
-  runApp(const MyApp(
-
-  ));
+  final dependencies = AppDependencies.firebase();
+  runApp(RepositoryProvider<AuthRepository>.value(value: dependencies.auth,
+    child: BlocProvider(create: (_) => SessionCubit(WatchAuthSession(dependencies.auth), SignOut(dependencies.auth)),
+      child: const MyApp())));
 }
 
 
@@ -69,7 +71,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (BuildContext context) => ServiceCubit()..getUserData(),
+          create: (BuildContext context) => ServiceCubit(),
         ),
         BlocProvider(
           create: (context) => ServiceMenuCubit(),
@@ -86,32 +88,12 @@ class MyApp extends StatelessWidget {
             locale: Locale(ServiceMenuCubit.get(context).value == 1 ? 'ar' : 'en',''),
             debugShowCheckedModeBanner: false,
             theme: lightTheme,
-            home: StreamBuilder(
-              stream: FirebaseAuth.instance.authStateChanges(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-
-                  CacheHelper.saveData(key: 'uId', value: FirebaseAuth.instance.currentUser!.uid);
-                  FirebaseFirestore.instance
-                      .collection('profiles')
-                      .doc(FirebaseAuth.instance.currentUser!.uid)
-                      .get()
-                      .then((docc) {
-                    List fcms = docc.get('fcm') ?? [];
-                    FirebaseMessaging.instance.getToken().then((myToken) {
-                      if (!fcms.contains(myToken!)) {
-                        fcms.add(myToken);
-                        FirebaseFirestore.instance
-                            .collection('profiles')
-                            .doc(FirebaseAuth.instance.currentUser!.uid)
-                            .update({'fcm': fcms});
-                      }
-                    });
-                  });
-                  return (FirebaseAuth.instance.currentUser!=null && FirebaseAuth.instance.currentUser!.emailVerified)? const Home():ServiceLoginScreen();
+            home: BlocBuilder<SessionCubit, LoadState<AuthUser>>(
+              builder: (context, state) {
+                if (state.status == LoadStatus.loading) {
+                  return const Scaffold(body: Center(child: CircularProgressIndicator()));
                 }
-
-                return ServiceLoginScreen();
+                return state.data?.emailVerified == true ? const Home() : const ServiceLoginScreen();
               },
             ),
           );

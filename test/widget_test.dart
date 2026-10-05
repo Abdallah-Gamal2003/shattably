@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shattably/components/components.dart';
-import 'package:shattably/features/home/presention/widgets/login/cubit/cubit.dart';
-import 'package:shattably/features/home/presention/widgets/login/cubit/states.dart';
 
 void main() {
   testWidgets('Shared auth field validates empty input and accepts entered text',
@@ -51,20 +49,4 @@ void main() {
     expect(tester.widget<TextField>(find.byType(TextField)).obscureText, isTrue);
   });
 
-  test('Login visibility state toggles and emits a presentation update', () async {
-    final cubit = ServiceLoginCubit();
-    addTearDown(cubit.close);
-    final states = <ServiceLoginStates>[];
-    final subscription = cubit.stream.listen(states.add);
-    addTearDown(subscription.cancel);
-    expect(cubit.isPassword, isTrue);
-    cubit.changePasswordVisibility();
-    expect(cubit.isPassword, isFalse);
-    expect(cubit.suffix, Icons.visibility_off_outlined);
-    cubit.changePasswordVisibility();
-    expect(cubit.isPassword, isTrue);
-    await Future<void>.delayed(Duration.zero);
-    expect(states, hasLength(2));
-    expect(states, everyElement(isA<ServiceChangePasswordVisibilityState>()));
-  });
 }

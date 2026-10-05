@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:shattably/core/utils/constants.dart';
+
 import 'package:shattably/features/home/data/models/service_user_model.dart';
 import 'dart:io';
 import 'package:shattably/features/home/presention/layout/cubit/states.dart';
@@ -39,7 +39,7 @@ class ServiceCubit extends Cubit<ServiceLayoutStates>
   void getUserData(){
 
     emit(ServiceGetUserLoadingState());
-    FirebaseFirestore.instance.collection('profiles').doc(uId).get().then((value) {
+    FirebaseFirestore.instance.collection('profiles').doc(FirebaseAuth.instance.currentUser!.uid).get().then((value) {
       userModel = ServiceUserModel.fromJson(value.data()!);
       emit(ServiceGetUserSuccessState());
     }).catchError((error){

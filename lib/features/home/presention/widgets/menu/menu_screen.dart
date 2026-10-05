@@ -1,5 +1,6 @@
+import 'package:shattably/features/auth/presentation/auth_cubits.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -193,7 +194,7 @@ class MenuScreen extends StatelessWidget {
                     IconButton(
                       icon: const Icon(Icons.logout , color: Colors.grey,),
                       onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
+                        await context.read<SessionCubit>().logout();
         if (!context.mounted) return;
                         navigateTo(context, ServiceLoginScreen());
                       },

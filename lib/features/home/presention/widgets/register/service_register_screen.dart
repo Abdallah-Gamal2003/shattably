@@ -1,426 +1,15 @@
-// import 'dart:io';
-// import 'package:path/path.dart';
-// import 'package:awesome_dialog/awesome_dialog.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-// import 'package:drop_down_list/model/selected_list_item.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:shattably/components/custom_button_auth.dart';
-// import 'package:shattably/components/custom_logo_auth.dart';
-// import 'package:shattably/components/custom_text_form.dart';
-// import 'package:shattably/components/components.dart';
-// import 'package:shattably/features/home/presention/layout/service_layout_screen.dart';
-// import 'package:shattably/features/home/presention/widgets/login/service_login_screen.dart';
-// import 'package:shattably/features/home/presention/widgets/register/cubit/cubit.dart';
-// import 'package:shattably/features/home/presention/widgets/register/cubit/states.dart';
-// import 'package:shattably/home.dart';
-//
-// class ServiceRegisterScreen extends StatefulWidget {
-//   const ServiceRegisterScreen({super.key});
-//
-//   State<ServiceRegisterScreen> createState() => _ServiceRegisterScreenState();
-// }
-//
-// class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
-//   final formKey = GlobalKey<FormState>();
-//   final jobController = TextEditingController();
-//   final emailController = TextEditingController();
-//   final passwordController = TextEditingController();
-//   final nameController = TextEditingController();
-//   final phoneController = TextEditingController();
-//   final whatsappController = TextEditingController();
-//   final addressController = TextEditingController();
-//   final cityController = TextEditingController();
-//    //var locationlink = TextEditingController();
-//   File? file;
-//   String? url;
-//
-//   getImage() async {
-//
-//     final ImagePicker picker = ImagePicker();
-//     //final XFile? image=await picker.pickImage(source: ImageSource.gallery);
-//     final XFile? photo = await picker.pickImage(source: ImageSource.camera);
-//     if (photo != null) {
-//       var storage = FirebaseStorage.instance;
-//       var storageRef = storage.ref();
-//       var imagesRef = storageRef.child('${basename(photo!.path)}');
-//       var selectedImage = File(photo.path);
-//       var uploadTask = imagesRef.putFile(selectedImage);
-//       await (await uploadTask).ref.getDownloadURL().then((value) {
-//         setState(() {
-//           url = value;
-//         });
-//       });
-//     }
-//
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) => ServiceRegisterCubit(),
-//       child: BlocConsumer<ServiceRegisterCubit, ServiceRegisterStates>(
-//         listener: (context, state) async {
-//           if (state is ServiceRegisterErrorState) {
-//             AwesomeDialog(
-//               context: context,
-//               dialogType: DialogType.error,
-//               animType: AnimType.rightSlide,
-//               title: 'حدث خطأ',
-//               desc: 'الايميل مستخدم بالفعل او كلمة المرور ضعيفة',
-//             )..show();
-//             return;
-//             // late String e;
-//             // e= ServiceCreateUserErrorState(e.code).error;
-//             //   try {
-//             //     // final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-//             //     //   email: emailController.text,
-//             //     //   password: passwordController.text,
-//             //     // );
-//             //
-//             //   } on FirebaseAuthException catch (e) {
-//             //     if (e.code == 'weak-password') {
-//             //       AwesomeDialog(
-//             //         context: context,
-//             //         dialogType: DialogType.error,
-//             //         animType: AnimType.rightSlide,
-//             //         title: 'Error',
-//             //         desc: 'weak password',
-//             //       )..show();
-//             //     } else if (e.code == 'email-already-in-use') {
-//             //       AwesomeDialog(
-//             //         context: context,
-//             //         dialogType: DialogType.error,
-//             //         animType: AnimType.rightSlide,
-//             //         title: 'Error',
-//             //         desc: 'this email is already in use',
-//             //       )..show();
-//             //     }
-//             //   } catch (e) {
-//             //     debugPrint(e);
-//             //   }
-//           }
-//
-//           if (state is ServiceRegisterCreateUserSuccessState) {
-//             navigateTo(
-//               context,
-//               ServiceLoginScreen(),
-//             );
-//           }
-//         },
-//         builder: (context, state) {
-//           return Scaffold(
-//             backgroundColor: Colors.white, // Setting background color to grey
-//
-//             appBar: AppBar(
-//               bottomOpacity: 0,
-//               elevation: 0,
-//               backgroundColor: Colors.transparent, // Setting background color to grey
-//
-//
-//             ),
-//             body: Padding(
-//               padding: const EdgeInsets.all(20.0),
-//               child: Center(
-//                 child: SingleChildScrollView(
-//                   child: Form(
-//                     key: formKey,
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Text(
-//                           'REGISTER',
-//                           style:
-//                               Theme.of(context).textTheme.headline4?.copyWith(
-//                                     fontFamily: 'Tajawal',
-//                                 fontWeight: FontWeight.bold,
-//                                 color: Colors.black,
-//
-//                                   ),
-//                         ),
-//                         Text(
-//                           'Register now to start the services',
-//                           style:
-//                               Theme.of(context).textTheme.bodyText1?.copyWith(
-//                                     color: Colors.black,
-//                                 fontFamily: 'Tajawal',
-//
-//                                   ),
-//                         ),
-//                         SizedBox(
-//                           height: 30,
-//                         ),
-//                         defaultFormField(
-//                           controller: nameController,
-//                           type: TextInputType.name,
-//                           validate: (value) {
-//                             if (value!.isEmpty)
-//                               return ('please enter your name');
-//                             return null;
-//                           },
-//                           label: 'User Name',
-//                           prefix: Icons.person,
-//                         ),
-//                         SizedBox(
-//                           height: 20,
-//                         ),
-//                         Text('ادخل مدينتك ',
-//                           style: TextStyle(
-//                             fontFamily: 'Tajawal',
-//                             fontWeight: FontWeight.bold,
-//                             color: Colors.black,
-//
-//                           ),
-//
-//                         ),
-//                         AppTextField(
-//                           textEditingController: cityController,
-//                           title: "",
-//
-//                           hint: "المدينه",
-//                           isCitySelected: true,
-//                           titleTextStyle: TextStyle(
-//                             fontWeight: FontWeight.bold,
-//                             fontFamily: 'Tajawal',
-//                             color: Colors.white,
-//                           ),
-//                           hintTextStyle: TextStyle(
-//                             fontWeight: FontWeight.bold,
-//                             fontFamily: 'Tajawal',
-//                             color: Colors.white,
-//                           ),
-//                           dataList: [
-//                             SelectedListItem(name: "القاهرة"),
-//                             SelectedListItem(name: "الجيزة"),
-//                             SelectedListItem(name: "الاسكندرية"),
-//                             SelectedListItem(name: "اسيوط"),
-//                             SelectedListItem(name: "دمياط"),
-//                           ],
-//                         ),
-//                         SizedBox(
-//                           height: 15.0,
-//                         ),
-//                         defaultFormField(
-//                           controller: addressController,
-//                           type: TextInputType.streetAddress,
-//                           validate: (value) {
-//                             if (value!.isEmpty)
-//                               return ('الرجاء ادخال العنوان');
-//                             return null;
-//                           },
-//                           label: 'Address',
-//                           prefix: Icons.maps_home_work_outlined,
-//                         ),
-//                         SizedBox(
-//                           height: 15.0,
-//                         ),
-//                         defaultFormField(
-//                           controller: emailController,
-//                           type: TextInputType.emailAddress,
-//                           validate: (value) {
-//                             if (value!.isEmpty)
-//                               return ('الرجاء ادخال البريد الالكتروني');
-//                             return null;
-//                           },
-//                           label: 'Email Address',
-//                           prefix: Icons.email_outlined,
-//                         ),
-//                         SizedBox(
-//                           height: 15.0,
-//                         ),
-//                         defaultFormField(
-//                           suffixPressed: () {
-//                             ServiceRegisterCubit.get(context)
-//                                 .changePasswordVisibility();
-//                           },
-//                           controller: passwordController,
-//                           type: TextInputType.visiblePassword,
-//                           suffix: ServiceRegisterCubit.get(context).suffix,
-//                           validate: (value) {
-//                             if (value!.isEmpty)
-//                               return ('password is too short.');
-//
-//
-//                             if (value.length < 8 && !RegExp(r'[0-9]').hasMatch(value) && !RegExp(r'[a-z]').hasMatch(value)) {
-//                               return 'Password must be at least 8 characters long and include at least one letter and one digit';
-//                             }
-//                             return null;
-//                           },
-//                           isPassword:
-//                               ServiceRegisterCubit.get(context).isPassword,
-//                           label: 'Password',
-//                           prefix: Icons.lock_outline,
-//                         ),
-//                         SizedBox(
-//                           height: 15.0,
-//                         ),
-//                         defaultFormField(
-//                           controller: phoneController,
-//                           type: TextInputType.phone,
-//                           validate: (value) {
-//                             if (value!.isEmpty) {
-//                               return ('الرجاء ادخال رقم التليفون');
-//                             }
-//                             return null;
-//                           },
-//                           label: 'رقم التليفون',
-//                           prefix: Icons.phone,
-//                         ),
-//                         SizedBox(
-//                           height: 15.0,
-//                         ),
-//                         defaultFormField(
-//                           controller: whatsappController,
-//                           type: TextInputType.phone,
-//                           validate: (value) {
-//                             if (value!.isEmpty) {
-//                               return ('الرجاء ادخال رقم الواتس اب');
-//                             }
-//                             return null;
-//                           },
-//                           label: 'رقم الواتس اب',
-//                           prefix: Icons.phone,
-//                         ),
-//                         SizedBox(
-//                           height: 20.0,
-//                         ),
-//
-//                         Text('ادخل وظيفتك ',
-//                           style: TextStyle(
-//                             fontFamily: 'Tajawal',
-//                             fontWeight: FontWeight.bold,
-//                             color: Colors.black,
-//
-//                           ),
-//
-//                         ),
-//                         AppTextField(
-//                           textEditingController: jobController,
-//                           title: "",
-//                           hint: "الوظيفة",
-//                           isCitySelected: true,
-//                           dataList: [
-//                             SelectedListItem(name: "مستخدم عادي"),
-//                             SelectedListItem(name: "مقاول"),
-//                             SelectedListItem(name: "كهربائي"),
-//                             SelectedListItem(name: "سباك"),
-//                             SelectedListItem(name: "نجار"),
-//                             SelectedListItem(name: "نقاش"),
-//                             SelectedListItem(name: "حداد"),
-//                             SelectedListItem(name: "باركية"),
-//                             SelectedListItem(name: "تكييف"),
-//                             SelectedListItem(name: "الموتال"),
-//                             SelectedListItem(name: "رخام"),
-//                           ],
-//                         ),
-//                         // SizedBox(
-//                         //   height: 30,
-//                         // ),
-//                         // defaultFormField(
-//                         //   controller: locationlink,
-//                         //   type: TextInputType.url,
-//                         //   validate: (value) {
-//                         //     if (value!.isEmpty) {
-//                         //       return ('please enter your location link');
-//                         //     }
-//                         //     return null;
-//                         //   },
-//                         //   label: 'location',
-//                         //   prefix: Icons.location_city_outlined,
-//                         // ),
-//
-//                         SizedBox(
-//                           height: 25.0,
-//                         ),
-//
-//                         Center(
-//                           child: defaultButton(
-//                               function: () async {
-//                                 await getImage();
-//                               },
-//                               text: 'التقاط صورة'),
-//                         ),
-//                         if (url != null)
-//                           Center(
-//                             child: Image.network(
-//
-//                               url!,
-//                               width: 200,
-//                               height: 200,
-//                               fit: BoxFit.fill,
-//                             ),
-//                           ),
-//
-//                         SizedBox(
-//                           height: 25.0,
-//                         ),
-//
-//                         Center(
-//                           child: defaultButton(
-//                               function: () {
-//
-//                                 if (formKey.currentState!.validate()) {
-//                                   ServiceRegisterCubit.get(context).userRegister(
-//                                       name: nameController.text,
-//                                       email: emailController.text,
-//                                       password: passwordController.text,
-//                                       phone: phoneController.text,
-//                                       whatsapp: whatsappController.text,
-//                                       address: addressController.text,
-//                                       job: jobController.text,
-//                                       city: cityController.text,
-//                                     //  locationlink: locationlink.toString(),
-//                                       image: url.toString());
-//                                 }
-//
-//                               },
-//                               text: 'REGISTER'),
-//                         ),
-//                         if (file != null)
-//                           Image.file(
-//                             file!,
-//                             width: 200,
-//                             height: 200,
-//                             fit: BoxFit.fill,
-//                           ),
-//                         SizedBox(height: 100,),
-//
-//                         // ElevatedButton(
-//                         //   onPressed: () {
-//                         //     addUser();
-//                         //     navigateTo(context, ServiceLayout());
-//                         //   },
-//                         //   child: Text("REGISTER"),
-//                         // ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
-
+import 'package:shattably/features/auth/domain/auth_repository.dart';
+import 'package:shattably/features/auth/domain/auth_use_cases.dart';
+import 'package:shattably/features/auth/presentation/auth_cubits.dart';
+import 'package:shattably/core/presentation/load_state.dart';
 import 'dart:io';
-import 'package:path/path.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shattably/components/components.dart';
 import 'package:shattably/features/home/presention/widgets/login/service_login_screen.dart';
-import 'package:shattably/features/home/presention/widgets/register/cubit/cubit.dart';
-import 'package:shattably/features/home/presention/widgets/register/cubit/states.dart';
 
 class ServiceRegisterScreen extends StatefulWidget {
   const ServiceRegisterScreen({super.key});
@@ -440,43 +29,39 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
   final addressController = TextEditingController();
   final cityController = TextEditingController();
   File? file;
-  String? url;
+
 
   Future<void> getImage() async {
     final ImagePicker picker = ImagePicker();
     final XFile? photo = await picker.pickImage(source: ImageSource.camera);
-    if (photo != null) {
-      var storage = FirebaseStorage.instance;
-      var storageRef = storage.ref();
-      var imagesRef = storageRef.child(basename(photo.path));
-      var selectedImage = File(photo.path);
-      var uploadTask = imagesRef.putFile(selectedImage);
-      await (await uploadTask).ref.getDownloadURL().then((value) {
-        setState(() {
-          url = value;
-        });
-      });
-    }
+    if (photo != null && mounted) setState(() => file = File(photo.path));
+  }
+
+  @override
+  void dispose() {
+    for (final controller in [jobController,emailController,passwordController,nameController,
+      phoneController,whatsappController,addressController,cityController]) { controller.dispose(); }
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ServiceRegisterCubit(),
-      child: BlocConsumer<ServiceRegisterCubit, ServiceRegisterStates>(
+      create: (context) => RegisterCubit(RegisterAccount(context.read<AuthRepository>())),
+      child: BlocConsumer<RegisterCubit, LoadState<void>>(
         listener: (context, state) async {
-          if (state is ServiceRegisterErrorState) {
+          if (state.status == LoadStatus.failure) {
             AwesomeDialog(
               context: context,
               dialogType: DialogType.error,
               animType: AnimType.rightSlide,
               title: 'خطأ',
-              desc: 'هذا الحساب مستخدم من قبل او كلمة المرور ضعيفة',
+              desc: state.failure!.message,
             ).show();
             return;
           }
 
-          if (state is ServiceRegisterCreateUserSuccessState) {
+          if (state.status == LoadStatus.success) {
             navigateTo(
               context,
               ServiceLoginScreen(),
@@ -609,7 +194,7 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                             }
                             return null;
                           },
-                          isPassword: ServiceRegisterCubit.get(context).isPassword,
+                          isPassword: true,
                           label: 'كلمة المرور',
                           prefix: Icons.lock_outline,
                         ),
@@ -683,10 +268,10 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                             ),
                           ),
                         ),
-                        if (url != null)
+                        if (file != null)
                           Center(
-                            child: Image.network(
-                              url!,
+                            child: Image.file(
+                              file!,
                               width: 150,
                               height: 150,
                               fit: BoxFit.cover,
@@ -697,8 +282,8 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                         Center(
                           child: ElevatedButton(
                             onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                ServiceRegisterCubit.get(context).userRegister(
+                              if (state.status != LoadStatus.loading && formKey.currentState!.validate()) {
+                                context.read<RegisterCubit>().submit(Registration(
                                   name: nameController.text,
                                   email: emailController.text,
                                   password: passwordController.text,
@@ -707,8 +292,8 @@ class _ServiceRegisterScreenState extends State<ServiceRegisterScreen> {
                                   address: addressController.text,
                                   job: jobController.text,
                                   city: cityController.text,
-                                  image: url.toString(),
-                                );
+                                  photoPath: file?.path,
+                                ));
                               }
                             },
                             style: ElevatedButton.styleFrom(

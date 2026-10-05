@@ -1,3 +1,5 @@
+import 'package:shattably/features/auth/presentation/auth_cubits.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:dio/dio.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -145,7 +147,7 @@
 //   Future<void> _handleMenuAction(MenuAction value) async {
 //     switch (value) {
 //       case MenuAction.signOut:
-//         await FirebaseAuth.instance.signOut();
+//         await context.read<SessionCubit>().logout();
 //         if (!context.mounted) return;
 //         navigateTo(context, ServiceLoginScreen());
 //         break;
@@ -1056,7 +1058,7 @@ class _OrdersListState extends State<OrdersList> {
   Future<void> _handleMenuAction(MenuAction value) async {
     switch (value) {
       case MenuAction.signOut:
-        await FirebaseAuth.instance.signOut();
+        await context.read<SessionCubit>().logout();
         if (!context.mounted) return;
         navigateTo(context, ServiceLoginScreen());
         break;
