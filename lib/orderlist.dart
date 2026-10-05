@@ -1,3 +1,6 @@
+import 'package:shattably/features/offers/domain/offers_repository.dart';
+import 'package:shattably/features/offers/domain/offers_use_cases.dart';
+import 'package:shattably/features/offers/presentation/offers_cubits.dart';
 import 'package:shattably/features/orders/domain/orders_repository.dart';
 import 'package:shattably/features/orders/domain/orders_use_cases.dart';
 import 'package:shattably/features/orders/presentation/orders_cubits.dart';
@@ -8,8 +11,6 @@ import 'package:shattably/features/profile/presentation/worker_profile_page.dart
 import 'package:shattably/features/auth/presentation/auth_cubits.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shattably/components/components.dart';
 import 'features/home/presention/widgets/login/service_login_screen.dart';
@@ -27,13 +28,35 @@ class SetOfferPage extends StatefulWidget {
 }
 
 class _SetOfferPageState extends State<SetOfferPage> {
+  late final SubmitOfferCubit _cubit;
+  @override
+  void initState() {
+    super.initState();
+    _cubit = SubmitOfferCubit(SubmitOffer(context.read<OffersRepository>()));
+  }
+  @override
+  void dispose() { _cubit.close(); _priceController.dispose(); _dateController.dispose(); super.dispose(); }
+
   final _priceController = TextEditingController();
   final _dateController = TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocConsumer<SubmitOfferCubit, LoadState<String>>(
+      bloc: _cubit,
+      listener: (context, state) {
+        if (state.status == LoadStatus.success) {
+          final navigator = Navigator.of(context);
+          final messenger = ScaffoldMessenger.of(context);
+          navigator.pop();
+          navigator.pop();
+          messenger.showSnackBar(const SnackBar(content: Text('Offer sent successfully')));
+        } else if (state.failure != null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.failure!.message)));
+        }
+      },
+      builder: (context, state) { return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
@@ -142,44 +165,8 @@ class _SetOfferPageState extends State<SetOfferPage> {
 
              child:
              ElevatedButton(
-               onPressed: () async {
-                 await FirebaseFirestore.instance.collection("orders").doc(widget.orderId).get().then((value) {
-                   if (!context.mounted) return;
-                   if (value.data()!["status"] != "pending") {
-                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                         content: Text('This order is already pending')));
-                     return;
-                   }
-                   FirebaseFirestore.instance
-                       .collection("offers")
-                       .add({}).then((value) async {
-                     var userId = FirebaseAuth.instance.currentUser!.uid;
-                     var currentUser=await FirebaseFirestore.instance.collection("profiles").doc(userId).get();
-                     var name=currentUser.data()!["name"];
-                     return await FirebaseFirestore.instance
-                         .collection("offers")
-                         .doc(value.id)
-                         .set({
-                       'offerId': value.id,
-                       "price": _priceController.text,
-                       "endData": _dateController.text,
-                       "orderId": widget.orderId,
-                       "name":name,
-                       "image":currentUser.data()!["image"],
-                       "employeeId": userId
-                     }).then((value) async {
-                        if (!context.mounted) return;
-                        final navigator = Navigator.of(context);
-                        final messenger = ScaffoldMessenger.of(context);
-                        navigator.pop();
-                        navigator.pop();
-                        messenger.showSnackBar(
-                           const SnackBar(content: Text('Offer sent successfully')));
-
-                     });
-                   });
-                 });
-               },
+               onPressed: state.status == LoadStatus.loading ? null : () => _cubit.submit(
+                 OfferDraft(orderId: widget.orderId, price: _priceController.text, endDate: _dateController.text)),
                style: ElevatedButton.styleFrom(
                  backgroundColor: Colors.green,
                  padding: const EdgeInsets.symmetric(vertical: 15),
@@ -200,6 +187,8 @@ class _SetOfferPageState extends State<SetOfferPage> {
           ),
         ],
       ),
+    );
+      },
     );
   }
 }

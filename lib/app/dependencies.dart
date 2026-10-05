@@ -11,17 +11,21 @@ import '../features/profile/data/firebase_profile_repository.dart';
 import '../features/orders/domain/orders_repository.dart';
 import '../features/orders/data/firestore_orders_data_source.dart';
 import '../features/orders/data/firebase_orders_repository.dart';
+import '../features/offers/domain/offers_repository.dart';
+import '../features/offers/data/firestore_offers_data_source.dart';
+import '../features/offers/data/firebase_offers_repository.dart';
 
 /// Composition root: concrete SDK clients are wired here, never in ViewModels.
 class AppDependencies {
-  AppDependencies({required this.auth, required this.profiles, required this.orders});
+  AppDependencies({required this.auth, required this.profiles, required this.orders, required this.offers});
   final AuthRepository auth;
   final ProfileRepository profiles;
   final OrdersRepository orders;
+  final OffersRepository offers;
   factory AppDependencies.firebase() {
     final auth = FirebaseAuthRepository(FirebaseAuthDataSource(
       FirebaseAuth.instance, FirebaseFirestore.instance, FirebaseStorage.instance));
-    return AppDependencies(auth: auth, orders: FirebaseOrdersRepository(FirestoreOrdersDataSource(FirebaseFirestore.instance), auth), profiles: FirebaseProfileRepository(
+    return AppDependencies(auth: auth, offers: FirebaseOffersRepository(FirestoreOffersDataSource(FirebaseFirestore.instance),auth), orders: FirebaseOrdersRepository(FirestoreOrdersDataSource(FirebaseFirestore.instance), auth), profiles: FirebaseProfileRepository(
       FirestoreProfilesDataSource(FirebaseFirestore.instance, FirebaseMessaging.instance),
       FirebaseProfileStorageDataSource(FirebaseStorage.instance), auth));
   }

@@ -1,4 +1,5 @@
 import 'features/profile/domain/profile_repository.dart';
+import 'features/offers/domain/offers_repository.dart';
 import 'features/orders/domain/orders_repository.dart';
 import 'features/orders/domain/orders_use_cases.dart';
 import 'features/orders/presentation/orders_cubits.dart';
@@ -61,6 +62,7 @@ void main() async {
     RepositoryProvider<AuthRepository>.value(value: dependencies.auth),
     RepositoryProvider<ProfileRepository>.value(value: dependencies.profiles),
     RepositoryProvider<OrdersRepository>.value(value: dependencies.orders),
+    RepositoryProvider<OffersRepository>.value(value: dependencies.offers),
   ],
     child: BlocProvider(create: (_) => SessionCubit(WatchAuthSession(dependencies.auth), SignOut(dependencies.auth)),
       child: const MyApp())));

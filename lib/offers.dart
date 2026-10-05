@@ -1,50 +1,48 @@
+import 'package:shattably/features/offers/domain/offers_repository.dart';
+import 'package:shattably/features/offers/domain/offers_use_cases.dart';
+import 'package:shattably/features/offers/presentation/offers_cubits.dart';
+import 'package:shattably/features/orders/presentation/orders_cubits.dart';
 import 'package:shattably/features/profile/presentation/worker_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'features/home/presention/layout/cubit/cubit.dart';
-import 'features/home/presention/layout/cubit/states.dart';
 
 class OffersScreen extends StatefulWidget {
-  final dynamic orderId;
-  const OffersScreen({super.key, this.orderId});
+  final String orderId;
+  const OffersScreen({super.key, required this.orderId});
 
   @override
   State<OffersScreen> createState() => _OffersScreenState();
 }
 
 class _OffersScreenState extends State<OffersScreen> {
+  late final OrderOffersCubit _cubit;
   @override
   void initState() {
     super.initState();
-    ServiceCubit.get(context).getOffers(orderId: widget.orderId);
+    final repository = context.read<OffersRepository>();
+    _cubit = OrderOffersCubit(GetOrderOffers(repository), AcceptOffer(repository))..load(widget.orderId);
   }
 
   @override
+  void dispose() { _cubit.close(); super.dispose(); }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ServiceCubit, ServiceLayoutStates>(
-      listener: (context, state) {},
+    return BlocConsumer<OrderOffersCubit, OrderOffersState>(
+      bloc: _cubit,
+      listener: (context, state) {
+        if (state.acceptance != null) {
+          context.read<CustomerOrdersCubit>().load();
+          final messenger = ScaffoldMessenger.of(context);
+          Navigator.pop(context);
+          messenger.showSnackBar(const SnackBar(content: Text('Offer accepted successfully')));
+        } else if (state.failure != null) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(state.failure!.message)));
+        }
+      },
       builder: (context, state) {
-        if (state is ServiceGetOffersErrorState || state is ServiceAcceptOfferErrorState) {
-          String errorMessage = (state is ServiceGetOffersErrorState)
-              ? state.error
-              : (state as ServiceAcceptOfferErrorState).error;
-
-          return Scaffold(
-            body: Center(
-              child: Text('Error: $errorMessage'),
-            ),
-          );
-        }
-
-        if (state is ServiceGetOffersLoadingState || state is ServiceAcceptOfferLoadingState) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-
-        List offers = ServiceCubit.get(context).offers;
+        if (state.loading) return const Scaffold(body: Center(child: CircularProgressIndicator()));
+        final offers = state.offers;
 
         return Scaffold(
 
@@ -83,9 +81,9 @@ class _OffersScreenState extends State<OffersScreen> {
                       children: [
                         _buildProfileSection(offers[index]),
                         const SizedBox(height: 15),
-                        _buildOfferDetail('Price', offers[index]['price']),
+                        _buildOfferDetail('Price', offers[index].price),
                         const SizedBox(height: 10),
-                        _buildOfferDetail('End Date', offers[index]['endData']),
+                        _buildOfferDetail('End Date', offers[index].endDate),
                         const SizedBox(height: 20),
                         _buildActionButtons(offers[index]),
                       ],
@@ -100,13 +98,13 @@ class _OffersScreenState extends State<OffersScreen> {
     );
   }
 
-  Widget _buildProfileSection(dynamic offer) {
+  Widget _buildProfileSection(Offer offer) {
     return Row(
       children: [
         CircleAvatar(
           backgroundImage: NetworkImage(
-            offer['image'] != null && offer['image'] != "null"
-                ? offer['image']
+            offer.workerImage.isNotEmpty && offer.workerImage != "null"
+                ? offer.workerImage
                 : 'https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png',
           ),
           radius: 30,
@@ -114,7 +112,7 @@ class _OffersScreenState extends State<OffersScreen> {
         const SizedBox(width: 10),
         Expanded(
           child: Text(
-            offer['name'],
+            offer.workerName,
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -152,7 +150,7 @@ class _OffersScreenState extends State<OffersScreen> {
     );
   }
 
-  Widget _buildActionButtons(dynamic offer) {
+  Widget _buildActionButtons(Offer offer) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -165,10 +163,7 @@ class _OffersScreenState extends State<OffersScreen> {
             ),
           ),
           onPressed: () {
-            ServiceCubit.get(context).acceptOffer(
-              orderId: widget.orderId,
-              offerId: offer['offerId'],
-            );
+            _cubit.accept(widget.orderId, offer.id);
           },
           child: const Text(
             'Accept',
@@ -190,7 +185,7 @@ class _OffersScreenState extends State<OffersScreen> {
             side: const BorderSide(color: Colors.deepOrange, width: 2),
           ),
           onPressed: () {
-            openProfile(context, offer['employeeId']);
+            openProfile(context, offer.workerId);
           },
           child: const Text(
             'Show Profile',
