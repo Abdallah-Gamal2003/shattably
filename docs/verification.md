@@ -25,7 +25,8 @@ The build still recommends NDK 27.0.12077973 for plugins; it completed with 25.1
 
 The local SDK launcher workaround described in `android-baseline.md` invoked
 the installed Flutter tool snapshot for these commands. Logs remain in ignored
-local recovery storage. No hosted CI run or Firebase/device end-to-end verification
+local recovery storage. This record describes the local checks; hosted runs are
+available in the repository's Actions tab. No Firebase/device end-to-end verification
 is claimed. Server rules, emulator contention tests, release signing, backend push
 delivery and asset-license review remain follow-up work.
 

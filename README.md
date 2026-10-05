@@ -120,7 +120,7 @@ project during unit/widget tests.
 [Android verification](.github/workflows/android.yml) resolves dependencies, runs
 analysis/tests, builds an APK with nonfunctional Firebase placeholders, and scans
 publication files. It requires no live Firebase secrets and does not publish an
-artifact. The workflow is prepared locally; no hosted CI run is claimed. Style-only
+artifact. See the repository's Actions tab for hosted run results. Style-only
 analyzer infos are nonfatal in CI (`--no-fatal-infos`); errors and warnings fail.
 
 ## Engineering work represented here

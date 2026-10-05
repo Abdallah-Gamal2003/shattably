@@ -15,15 +15,18 @@ The publication history begins at a sanitized root commit. Only this history is 
 publication after review. Never push --all, --mirror, recovery branches or old tags.
 Old history, the ignored nested project and ignored recovery archive remain local
 and contain exposed material. They are not part of the publication tree. Replacing
-existing remote history requires a separate approved plan. No pushes were made.
+existing remote history requires a separate approved plan. The sanitized `main`
+history was published with an ordinary push after the owner's explicit approval.
 
 Personal payment/rating contact values were removed. These disconnected prototypes
 are not working payment/rating integrations. No payment recipient is configured.
 
 
-The local branch is now main. The configured origin fetch URL belongs to the selected
-portfolio repository; its push URL is deliberately DISABLED. Keep it disabled until
-the owner explicitly authorizes publication. No push is part of this roadmap.
+The publication branch is `main` at
+https://github.com/Abdallah-Gamal2003/shattably. Its push URL was enabled only after
+the owner authorized publication and the history scan passed. Recovery branches,
+tags and ignored local files were not included. No force push or history rewrite
+was used for publication.
 
 The disconnected payment/rating prototypes were removed during cleanup. The core
 application does not process payments or persist ratings.
