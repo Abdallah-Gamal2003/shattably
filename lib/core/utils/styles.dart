@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 ThemeData lightTheme = ThemeData(
-  primarySwatch:  Colors.blue,
+  primarySwatch: Colors.blue,
   scaffoldBackgroundColor: Colors.white,
-  appBarTheme:const AppBarTheme(
+  appBarTheme: const AppBarTheme(
     titleSpacing: 20.0,
     systemOverlayStyle: SystemUiOverlayStyle(
       statusBarColor: Colors.white,
@@ -16,16 +16,14 @@ ThemeData lightTheme = ThemeData(
       color: Colors.black,
       fontSize: 20.0,
       fontWeight: FontWeight.bold,
-
     ),
     iconTheme: IconThemeData(
       color: Colors.black,
-
     ),
-  ) ,
+  ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
-    selectedItemColor:Colors.blue,
+    selectedItemColor: Colors.blue,
     unselectedItemColor: Colors.grey,
     elevation: 20.0,
     backgroundColor: Colors.white,
@@ -34,31 +32,32 @@ ThemeData lightTheme = ThemeData(
     bodyLarge: TextStyle(
       fontSize: 18.0,
       fontWeight: FontWeight.w600,
-      color:Colors.black,
+      color: Colors.black,
     ),
   ),
   // fontFamily: 'Jannah',
-
 );
 
 const kTitleStyle = TextStyle(
-fontSize: 20.0,
-fontWeight: FontWeight.bold,
+  fontSize: 20.0,
+  fontWeight: FontWeight.bold,
 );
 
 final kDecoration = BoxDecoration(
-  borderRadius:  BorderRadius.circular(10.0,),
+  borderRadius: BorderRadius.circular(
+    10.0,
+  ),
   color: Colors.white,
 );
 
 const String kBaseImage = 'assets/images/';
 
-const kTextDialog =  TextStyle(
+const kTextDialog = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 20.0,
 );
 
-const kTextOrder =  TextStyle(
+const kTextOrder = TextStyle(
   fontWeight: FontWeight.bold,
   fontSize: 18.0,
 );
@@ -78,4 +77,3 @@ const kStyleAppBar = TextStyle(
   fontSize: 22.0,
   fontWeight: FontWeight.w400,
 );
-

@@ -1,22 +1,30 @@
 import 'package:bloc/bloc.dart';
-import '../../../core/errors/app_failure.dart';
-import '../../../core/presentation/load_state.dart';
-import '../domain/profile_repository.dart';
-import '../domain/profile_use_cases.dart';
+import 'package:shattably/core/errors/app_failure.dart';
+import 'package:shattably/core/presentation/load_state.dart';
+import 'package:shattably/features/profile/domain/profile_repository.dart';
+import 'package:shattably/features/profile/domain/profile_use_cases.dart';
 
 class ProfileCubit extends Cubit<LoadState<UserProfile>> {
   ProfileCubit(this.getMyProfile) : super(const LoadState());
   final GetMyProfile getMyProfile;
-  Future<void> load() async {
-    emit(const LoadState(status: LoadStatus.loading));
+  int _generation = 0;
+  Future<void> load({bool clear = false}) async {
+    final generation = ++_generation;
+    final previous = clear ? null : state.data;
+    emit(LoadState(status: LoadStatus.loading, data: previous));
     try {
       final profile = await getMyProfile();
-      if (!isClosed) emit(LoadState(status: LoadStatus.success, data: profile));
+      if (!isClosed && generation == _generation) {
+        emit(LoadState(status: LoadStatus.success, data: profile));
+      }
     } on AppFailure catch (error) {
-      if (!isClosed) emit(LoadState(status: LoadStatus.failure, failure: error));
+      if (!isClosed && generation == _generation) {
+        emit(LoadState(status: LoadStatus.failure, data: previous, failure: error));
+      }
     }
   }
 }
+
 class WorkerProfileCubit extends Cubit<LoadState<UserProfile>> {
   WorkerProfileCubit(this.getProfile) : super(const LoadState());
   final GetProfile getProfile;
@@ -26,13 +34,15 @@ class WorkerProfileCubit extends Cubit<LoadState<UserProfile>> {
       final profile = await getProfile(id);
       if (!isClosed) emit(LoadState(status: LoadStatus.success, data: profile));
     } on AppFailure catch (error) {
-      if (!isClosed) emit(LoadState(status: LoadStatus.failure, failure: error));
+      if (!isClosed)
+        emit(LoadState(status: LoadStatus.failure, failure: error));
     }
   }
 }
+
 class EditProfileCubit extends Cubit<LoadState<UserProfile>> {
   EditProfileCubit(UserProfile profile, this.update, this.updatePhoto)
-    : super(LoadState(status: LoadStatus.initial, data: profile));
+      : super(LoadState(status: LoadStatus.initial, data: profile));
   final UpdateProfile update;
   final UpdateProfilePhoto updatePhoto;
   Future<void> save(ProfileChanges changes, {String? photoPath}) async {
@@ -45,7 +55,9 @@ class EditProfileCubit extends Cubit<LoadState<UserProfile>> {
       if (!isClosed) emit(LoadState(status: LoadStatus.success, data: profile));
     } on AppFailure catch (error) {
       // Retain the successful text update when a photo upload fails; allow retry.
-      if (!isClosed) emit(LoadState(status: LoadStatus.failure, data: profile, failure: error));
+      if (!isClosed)
+        emit(LoadState(
+            status: LoadStatus.failure, data: profile, failure: error));
     }
   }
 }

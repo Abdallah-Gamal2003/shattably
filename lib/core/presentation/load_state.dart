@@ -1,4 +1,4 @@
-import '../errors/app_failure.dart';
+import 'package:shattably/core/errors/app_failure.dart';
 
 enum LoadStatus { initial, loading, success, failure }
 

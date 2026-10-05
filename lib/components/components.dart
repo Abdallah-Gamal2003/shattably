@@ -2,8 +2,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 
-
-import '../core/utils/styles/icon_broken.dart';
+import 'package:shattably/core/utils/styles/icon_broken.dart';
 
 Widget defaultFormField({
   required TextEditingController controller,
@@ -33,11 +32,11 @@ Widget defaultFormField({
       enabled: isClickable,
       validator: validate,
       decoration: InputDecoration(
-
         labelText: label,
-        labelStyle: const TextStyle(fontFamily: "Tajawal",color: Colors.green),
+        labelStyle: const TextStyle(fontFamily: "Tajawal", color: Colors.green),
         prefixIcon: Icon(
-          prefix,color: Colors.green,
+          prefix,
+          color: Colors.green,
         ),
         suffixIcon: suffix != null
             ? IconButton(
@@ -71,7 +70,6 @@ Widget defaultButton({
   required String text,
 }) =>
     Container(
-
       width: width,
       height: 40.0,
       decoration: BoxDecoration(
@@ -93,7 +91,6 @@ Widget defaultButton({
       ),
     );
 
-
 Widget defaultDialogButton({
   double width = double.infinity,
   Color background = Colors.blue,
@@ -105,7 +102,7 @@ Widget defaultDialogButton({
 }) =>
     Container(
       width: width,
-        height: 30.0,
+      height: 30.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(
           radius,
@@ -124,7 +121,6 @@ Widget defaultDialogButton({
         ),
       ),
     );
-
 
 Widget defaultDetailsScreenButton({
   double width = double.infinity,
@@ -211,7 +207,6 @@ Widget alertDialog({
       ],
     );
 
-
 Widget defaultFormFieldDetails({
   required TextEditingController controller,
   required TextInputType type,
@@ -230,7 +225,7 @@ Widget defaultFormFieldDetails({
       onFieldSubmitted: (s) {
         onSubmit?.call(s);
       },
-      onChanged:onChange,
+      onChanged: onChange,
       onTap: onTap,
       enabled: isClickable,
       decoration: InputDecoration(
@@ -240,34 +235,32 @@ Widget defaultFormFieldDetails({
         ),
         suffixIcon: suffix != null
             ? IconButton(
-          onPressed: () {
-            suffixPressed?.call();
-          },
-          icon: Icon(
-            suffix,
-          ),
-        )
+                onPressed: () {
+                  suffixPressed?.call();
+                },
+                icon: Icon(
+                  suffix,
+                ),
+              )
             : null,
         border: const OutlineInputBorder(),
       ),
     );
 
-
 Widget myDivider() => Padding(
-  padding: const EdgeInsetsDirectional.only(
-    start: 2.0,
-  ),
-  child: Container(
-    width: double.infinity,
-    height: 1.0,
-    color: Colors.grey[300],
-  ),
-);
+      padding: const EdgeInsetsDirectional.only(
+        start: 2.0,
+      ),
+      child: Container(
+        width: double.infinity,
+        height: 1.0,
+        color: Colors.grey[300],
+      ),
+    );
 
 IconButton iconButtonHomeScreen(BuildContext context) {
   return IconButton(
-    onPressed: ()
-    {
+    onPressed: () {
       Navigator.pop(context);
     },
     icon: const Icon(
@@ -276,12 +269,13 @@ IconButton iconButtonHomeScreen(BuildContext context) {
     ),
   );
 }
+
 void navigateTo(context, widget) => Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => widget,
-  ),
-);
+      context,
+      MaterialPageRoute(
+        builder: (context) => widget,
+      ),
+    );
 
 class AppTextField extends StatefulWidget {
   final TextEditingController textEditingController;
@@ -306,13 +300,14 @@ class AppTextField extends StatefulWidget {
   @override
   State<AppTextField> createState() => _AppTextFieldState();
 }
+
 class _AppTextFieldState extends State<AppTextField> {
   /// This is on text changed method which will display on city text field on changed.
   void onTextFieldTap() {
     DropDownState(
       DropDown(
         isDismissible: true,
-        bottomSheetTitle:  Text(
+        bottomSheetTitle: Text(
           widget.title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
@@ -332,7 +327,7 @@ class _AppTextFieldState extends State<AppTextField> {
           for (var item in selectedList) {
             if (item is SelectedListItem) {
               list.add(item.name);
-              widget.textEditingController.text=item.name;
+              widget.textEditingController.text = item.name;
             }
           }
           showSnackBar(list.toString());
@@ -361,16 +356,18 @@ class _AppTextFieldState extends State<AppTextField> {
           cursorColor: Colors.black,
           onTap: widget.isCitySelected
               ? () {
-            FocusScope.of(context).unfocus();
-            onTextFieldTap();
-          }
+                  FocusScope.of(context).unfocus();
+                  onTextFieldTap();
+                }
               : null,
           decoration: InputDecoration(
             filled: true,
             fillColor: Colors.black12,
             contentPadding:
-            const EdgeInsets.only(left: 8, bottom: 0, top: 0, right: 15),
-            hintText: widget.textEditingController.text == "" ? widget.hint:widget.textEditingController.text,
+                const EdgeInsets.only(left: 8, bottom: 0, top: 0, right: 15),
+            hintText: widget.textEditingController.text == ""
+                ? widget.hint
+                : widget.textEditingController.text,
             border: const OutlineInputBorder(
               borderSide: BorderSide(
                 width: 0,

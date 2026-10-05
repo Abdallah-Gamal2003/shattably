@@ -1,7 +1,8 @@
 import 'dart:async';
 
 class AuthUser {
-  const AuthUser({required this.id, required this.email, required this.emailVerified});
+  const AuthUser(
+      {required this.id, required this.email, required this.emailVerified});
   final String id;
   final String email;
   final bool emailVerified;
@@ -9,9 +10,16 @@ class AuthUser {
 
 /// Registration details are transient input; passwords are never persisted.
 class Registration {
-  const Registration({required this.email, required this.password, required this.name,
-    required this.phone, required this.address, required this.city,
-    required this.job, required this.whatsapp, this.photoPath});
+  const Registration(
+      {required this.email,
+      required this.password,
+      required this.name,
+      required this.phone,
+      required this.address,
+      required this.city,
+      required this.job,
+      required this.whatsapp,
+      this.photoPath});
   final String email, password, name, phone, address, city, job, whatsapp;
   final String? photoPath;
 }
