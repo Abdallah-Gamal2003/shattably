@@ -4,9 +4,19 @@ A Flutter graduation project connecting customers with skilled home-service work
 Customers describe a job and compare offers; workers browse matching requests and
 submit a price and proposed end date. Android is the supported build target.
 
+**Flutter • Dart • Firebase • Clean Architecture • Cubit / MVVM-style • Repository Pattern • Automated Tests • GitHub Actions**
+
+[![Android verification](https://github.com/Abdallah-Gamal2003/shattably/actions/workflows/android.yml/badge.svg?branch=main)](https://github.com/Abdallah-Gamal2003/shattably/actions/workflows/android.yml)
+
 The portfolio version preserves the original Arabic-first UI while migrating the
 four core workflows to practical Clean Architecture and Cubit-based MVVM-style
 presentation. It is a learning/portfolio application, not a production marketplace.
+
+## App preview
+
+Real application screenshots are being prepared. The planned preview covers
+authentication, service selection, request creation, worker matching, offers and
+profiles. See the [capture checklist and filenames](docs/screenshots.md).
 
 ## Workflows and implemented features
 
@@ -123,32 +133,31 @@ publication files. It requires no live Firebase secrets and does not publish an
 artifact. See the repository's Actions tab for hosted run results. Style-only
 analyzer infos are nonfatal in CI (`--no-fatal-infos`); errors and warnings fail.
 
+[Verified hosted run](https://github.com/Abdallah-Gamal2003/shattably/actions/runs/37376299502)
+passed analysis, all 16 tests, the Android release APK build and publication scanning
+on commit `647cdf8`. The badge above shows the latest `main` result.
+
 ## Engineering work represented here
 
-- Incrementally migrated auth, profile, orders and offers behind injected interfaces.
-- Removed duplicate sign-in and cached-UID authentication authority.
-- Added explicit handling for partial registration failures and editable profile patches.
-- Replaced partial document creation with complete writes and guarded acceptance with a transaction.
-- Preserved the legacy schema and screen designs while replacing Firebase access in views.
-- Modernized the Android build, replaced the incompatible direct-call plugin, and
-  added automated checks and a sanitized publication baseline.
+- **Dependency inversion:** four core workflows use domain repository interfaces,
+  constructor injection and Cubit/View separation while preserving the original UI.
+- **Failure handling:** registration compensates for profile-creation failure;
+  profile updates preserve unrelated fields. Authentication uses the live session.
+- **Data integrity:** validated service requests produce complete documents;
+  offer acceptance checks ownership and eligibility in a Firestore transaction.
+- **Verification and tooling:** architecture boundary tests, unit/widget tests,
+  Android build verification in GitHub Actions, and index/history publication scans.
 
 ## Known limitations and next work
 
 - `completed` means **offer accepted** in legacy Firestore data; actual job completion,
   payments, disputes and ratings are not implemented in the reachable application.
-- Client checks are not server authorization. Firestore/Storage rules, access to
-  contact fields/device tokens, App Check, and emulator integration tests need a
-  dedicated backend hardening pass before a public live deployment.
-- Auth/Firestore/Storage operations are not cross-service transactions. Rare failed
-  signup compensation and abandoned images can require backend/manual cleanup.
-- Backend push sending and robust token refresh/removal are follow-up work.
-- Unit/widget checks do not prove real-device camera/call/notification behavior or
-  Firebase integration. No device end-to-end pass is claimed.
-- Some original labels/mixed language strings and view-data maps remain. iOS, Web
-  and desktop scaffolding is retained but unverified.
-- Screenshots, asset-license review and release signing remain owner tasks.
+- A live deployment needs reviewed Firebase rules and emulator/device integration
+  testing; client checks and passing unit tests do not establish backend security.
+- Backend push delivery is not implemented. Android is the verified target;
+  release builds currently use debug signing.
+- Real screenshots and asset-license review remain owner tasks.
 
-See [security and publication](docs/security-and-publication.md) and
-[screenshot guidance](docs/screenshots.md). No server keys or Admin credentials
-belong in a Flutter client.
+See [technical limitations and follow-up work](docs/architecture.md#remaining-technical-work),
+[security and publication](docs/security-and-publication.md), and
+[screenshot guidance](docs/screenshots.md) for details.

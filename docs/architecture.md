@@ -112,6 +112,21 @@ authorize recipients, deduplicate by order/offer ID and send through Admin SDK.
 Do not send notifications inside a retryable transaction callback. No outbound
 sender, service account, server key or fake endpoint exists in the client.
 
+## Remaining technical work
+
+- Review Firestore/Storage rules, exposure of contact fields/device tokens, App Check,
+  and emulator authorization tests before a live deployment.
+- Add emulator-level transaction contention and real-device camera, calling and
+  notification tests; current unit/widget tests do not cover those integrations.
+- Auth/Firestore/Storage cannot share a transaction. Rare failed registration
+  compensation and abandoned images can require backend or manual cleanup.
+- Implement backend push delivery, token refresh and removal on logout.
+- Some original mixed-language labels and view-data maps remain. The retained iOS,
+  Web and desktop scaffolding has not been verified.
+- Complete release signing, asset-license review and real screenshot capture.
+  The Android baseline's NDK recommendation and style infos are documented in
+  [Android baseline](android-baseline.md) and [verification](verification.md).
+
 ## Interview discussion prompts
 
 1. Trace an Accept button tap through every layer to the Firestore transaction.
